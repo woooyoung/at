@@ -17,4 +17,13 @@
 		article
 		WHERE id = #{id}
 	</select>
+
+	<insert id="write" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO article
+		SET regDate = NOW(),
+		updateDate = NOW(),
+		title = #{title},
+		body = #{body}
+	</insert>
 </mapper>
