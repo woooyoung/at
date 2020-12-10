@@ -29,8 +29,6 @@ import com.sbs.cwy.at.service.FileService;
 import com.sbs.cwy.at.service.VideoStreamService;
 import com.sbs.cwy.at.util.Util;
 
-import reactor.core.publisher.Mono;
-
 @Controller
 public class FileController {
 	@Autowired
@@ -69,6 +67,11 @@ public class FileController {
 			String[] fileInputNameBits = fileInputName.split("__");
 
 			if (fileInputNameBits[0].equals("file")) {
+				byte[] fileBytes = Util.getFileBytesFromMultipartFile(multipartFile);
+
+				if (fileBytes == null || fileBytes.length == 0) {
+					continue;
+				}
 				String relTypeCode = fileInputNameBits[1];
 				int relId = Integer.parseInt(fileInputNameBits[2]);
 				String typeCode = fileInputNameBits[3];
@@ -78,7 +81,6 @@ public class FileController {
 				String fileExtTypeCode = Util.getFileExtTypeCodeFromFileName(multipartFile.getOriginalFilename());
 				String fileExtType2Code = Util.getFileExtType2CodeFromFileName(multipartFile.getOriginalFilename());
 				String fileExt = Util.getFileExtFromFileName(multipartFile.getOriginalFilename()).toLowerCase();
-				byte[] fileBytes = Util.getFileBytesFromMultipartFile(multipartFile);
 				int fileSize = (int) multipartFile.getSize();
 
 				int fileId = fileService.saveFile(relTypeCode, relId, typeCode, type2Code, fileNo, originFileName,
@@ -89,7 +91,7 @@ public class FileController {
 		}
 
 		Map<String, Object> rsDataBody = new HashMap<>();
-		rsDataBody.put("fileIdsStr", Joiner.on("").join(fileIds));
+		rsDataBody.put("fileIdsStr", Joiner.on(",").join(fileIds));
 		rsDataBody.put("fileIds", fileIds);
 
 		return new ResultData("S-1", String.format("%d개의 파일을 저장했습니다.", fileIds.size()), rsDataBody);
