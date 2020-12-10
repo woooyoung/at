@@ -2593,3 +2593,33 @@ org.eclipse.core.internal.resources.ResourceException: Marker id 667 not found.
 
 !ENTRY org.eclipse.wst.html.ui 1 1 2020-12-09 17:12:01.645
 !MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:05.638
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:05.643
+!MESSAGE classpath=127 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:05.646
+!MESSAGE buffering callback sts4.classpath.EEChyfOX at false 127
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:05.646
+!MESSAGE executing callback sts4.classpath.EEChyfOX 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:05.662
+!MESSAGE executing callback sts4.classpath.EEChyfOX SUCCESS [done]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:34.086
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:34.089
+!MESSAGE classpath=127 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:34.091
+!MESSAGE buffering callback sts4.classpath.EEChyfOX at false 127
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:34.092
+!MESSAGE executing callback sts4.classpath.EEChyfOX 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-09 17:19:34.106
+!MESSAGE executing callback sts4.classpath.EEChyfOX SUCCESS [done]
