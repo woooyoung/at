@@ -2693,3 +2693,33 @@ java.lang.IllegalArgumentException: can not get a buffer without a document refe
 
 !ENTRY org.eclipse.wst.html.ui 1 1 2020-12-11 18:22:35.311
 !MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:32.594
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:32.597
+!MESSAGE classpath=109 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:32.600
+!MESSAGE buffering callback sts4.classpath.EEChyfOX at false 109
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:32.601
+!MESSAGE executing callback sts4.classpath.EEChyfOX 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:32.628
+!MESSAGE executing callback sts4.classpath.EEChyfOX SUCCESS [done]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:35.060
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:35.062
+!MESSAGE classpath=109 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:35.064
+!MESSAGE buffering callback sts4.classpath.EEChyfOX at false 109
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:35.064
+!MESSAGE executing callback sts4.classpath.EEChyfOX 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-11 19:05:35.074
+!MESSAGE executing callback sts4.classpath.EEChyfOX SUCCESS [done]
