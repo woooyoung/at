@@ -50,7 +50,7 @@
 </script>
 <form method="POST" class="table-box con form1" action="doLogin"
 	onsubmit="MemberLoginForm__submit(this); return false;">
-	<input type="hidden" name="redirectUrl" value="/usr/home/main">
+	<input type="hidden" name="redirectUri" value="${param.redirectUri}">
 	<input type="hidden" name="loginPwReal">
 	<table>
 		<colgroup>
@@ -62,7 +62,7 @@
 				<td>
 					<div class="form-control-box">
 						<input type="text" placeholder="로그인 아이디 입력해주세요." name="loginId"
-							maxlength="30" />
+							maxlength="30" autofocus="autofocus" />
 					</div>
 				</td>
 			</tr>
