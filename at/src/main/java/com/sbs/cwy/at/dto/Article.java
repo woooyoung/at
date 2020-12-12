@@ -1,5 +1,7 @@
 package com.sbs.cwy.at.dto;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +19,5 @@ public class Article {
 	private boolean displayStatus;
 	private String title;
 	private String body;
+	private Map<String,Object> extra;
 }

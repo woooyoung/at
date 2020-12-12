@@ -16,7 +16,7 @@ import com.sbs.cwy.at.util.Util;
 public class FileService {
 	@Autowired
 	private FileDao fileDao;
-
+	
 	public int saveFile(String relTypeCode, int relId, String typeCode, String type2Code, int fileNo,
 			String originFileName, String fileExtTypeCode, String fileExtType2Code, String fileExt, byte[] body,
 			int fileSize) {
@@ -45,8 +45,7 @@ public class FileService {
 
 	public Map<Integer, File> getFilesMapKeyRelId(String relTypeCode, List<Integer> relIds, String typeCode,
 			String type2Code, int fileNo) {
-		List<File> files = fileDao.getFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2CodeAndFileNo(relTypeCode, relIds,
-				typeCode, type2Code, fileNo);
+		List<File> files = fileDao.getFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2CodeAndFileNo(relTypeCode, relIds, typeCode, type2Code, fileNo);
 		Map<Integer, File> map = new HashMap<>();
 
 		for (File file : files) {
@@ -69,22 +68,28 @@ public class FileService {
 	public File getFileById(int id) {
 		return fileDao.getFileById(id);
 	}
+
 	public Map<Integer, Map<Integer, File>> getFilesMapKeyRelIdAndFileNo(String relTypeCode, List<Integer> relIds, String typeCode,
 			String type2Code) {
 		List<File> files = fileDao.getFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2Code(relTypeCode, relIds, typeCode, type2Code);
 		Map<Integer, File> map = new HashMap<>();
-
+		
 		Map<Integer, Map<Integer, File>> rs = new LinkedHashMap<>();
 
 		for (File file : files) {
 			if ( rs.containsKey(file.getRelId()) == false ) {
 				rs.put(file.getRelId(), new LinkedHashMap<>());
 			}
-
+			
 			rs.get(file.getRelId()).put(file.getFileNo(), file);
 		}
 
 		return rs;
 	}
-}
 
+	public List<File> getFilesMapKeyFileNo(String relTypeCode, int relId, String typeCode, String type2Code) {
+		List<File> files = fileDao.getFilesRelTypeCodeAndRelIdAndTypeCodeAndType2Code(relTypeCode, relId, typeCode, type2Code);
+		return files;
+	}
+
+}

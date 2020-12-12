@@ -23,6 +23,7 @@
 		`body` =
 		#{body}
 	</insert>
+
 	<select
 		id="getFilesRelTypeCodeAndRelIdsAndTypeCodeAndType2CodeAndFileNo"
 		resultType="File">
@@ -63,6 +64,23 @@
 		ORDER BY relId, fileNo
 	</select>
 
+	<select id="getFilesRelTypeCodeAndRelIdAndTypeCodeAndType2Code"
+		resultType="File">
+		SELECT id, regDate, updateDate, relTypeCode, relId,
+		originFileName,
+		fileExt, typeCode, type2Code, fileExtTypeCode,
+		fileExtType2Code,
+		fileNo, fileSize
+		FROM file
+		WHERE 1
+		AND relId = #{relId}
+		AND relTypeCode = #{relTypeCode}
+		AND typeCode = #{typeCode}
+		AND
+		type2Code = #{type2Code}
+		ORDER BY fileNo
+	</select>
+
 	<select id="getFileById" resultType="File">
 		SELECT id, regDate,
 		updateDate, relTypeCode, relId, originFileName, fileExt,
@@ -90,4 +108,4 @@
 		= #{relTypeCode}
 	</delete>
 
-</mapper> 
+</mapper>
