@@ -126,3 +126,6 @@ ALTER TABLE `article` ADD COLUMN `memberId` INT(10) UNSIGNED NOT NULL AFTER `del
 UPDATE article
 SET memberId = 1
 WHERE memberId = 0;
+
+# 파일 테이블에 유니크 인덱스 추가
+ALTER TABLE `file` ADD UNIQUE INDEX (`relId`, `relTypeCode`, `typeCode`, `type2Code`, `fileNo`); 
