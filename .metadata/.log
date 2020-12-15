@@ -3017,3 +3017,9 @@ java.lang.InterruptedException
 
 !ENTRY org.eclipse.wst.html.ui 1 1 2020-12-14 19:27:05.454
 !MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.eclipse.wst.html.ui 1 1 2020-12-16 18:34:37.238
+!MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.eclipse.wst.html.ui 1 1 2020-12-16 18:34:37.239
+!MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
