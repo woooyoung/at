@@ -70,7 +70,11 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 				isAjax = true;
 			}
 		}
-
+		if (isAjax == false) {
+			if (requestUri.contains("/get")) {
+				isAjax = true;
+			}
+		}
 		request.setAttribute("isAjax", isAjax);
 
 		// 설정 파일에 있는 정보를 request에 담는다.
