@@ -316,11 +316,12 @@
 			fileInput2.value = '';
 		}
 		ReplyList__submitModifyFormDone = true;
-		var startUploadFiles = function(onSuccess) {
+		// 파일 업로드 시작
+		var startUploadFiles = function() {
 			if (fileInput1.value.length == 0 && fileInput2.value.length == 0) {
 				if (deleteFileInput1.checked == false
 						&& deleteFileInput2.checked == false) {
-					onSuccess();
+					onUploadFilesComplete();
 					return;
 				}
 			}
@@ -333,47 +334,48 @@
 				contentType : false,
 				dataType:"json",
 				type : 'POST',
-				success : onSuccess
+				success : onUploadFilesComplete
 			});
 		}
-		var startModifyReply = function() {
+		// 파일 업로드 완료시 실행되는 함수
+		var onUploadFilesComplete = function(data) {
+			
+			var fileIdsStr = '';
+			if ( data && data.body && data.body.fileIdsStr ) {
+				fileIdsStr = data.body.fileIdsStr;
+			}
+			startModifyReply(fileIdsStr);
+		};
+		// 댓글 수정 시작
+		var startModifyReply = function(fileIdsStr) {
 			$.post('../reply/doModifyReplyAjax', {
 				id : id,
-				body : body
-			}, function(data) {
-				if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
-					// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
-					var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body');
-					$tr.empty().append(body);
-					var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
-					if ( data && data.body && data.body.file__comment__attachment ) {
-						for ( var fileNo in data.body.file__comment__attachment ) {
-							var file = data.body.file__comment__attachment[fileNo];
-							var html = '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
-							$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].video-box').append(html);
-						}
-					}
-					
-				}
-				ReplyList__hideModifyFormModal();
-				ReplyList__submitModifyFormDone = false;
-			}, 'json');
+				body : body,
+				fileIdsStr: fileIdsStr
+			}, onModifyReplyComplete, 'json');
 		};
-		startUploadFiles(function(data) {
-			
-			var idsStr = '';
-			if ( data && data.body && data.body.fileIdsStr ) {
-				idsStr = data.body.fileIdsStr;
-			}
-			startModifyReply(idsStr, function(data) {
-				if ( data.msg ) {
-					alert(data.msg);
+		// 댓글 수정이 완료되면 실행되는 함수
+		var onModifyReplyComplete = function(data) {
+			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
+				// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
+				var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body');
+				$tr.empty().append(body);
+				var $tr = $('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
+				if ( data && data.body && data.body.file__common__attachment ) {
+					for ( var fileNo in data.body.file__common__attachment ) {
+						var file = data.body.file__common__attachment[fileNo];
+						var html = '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+						$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].video-box').append(html);
+					}
 				}
-				
-				ReplyList__submitModifyFormDone = false;
-				ReplyList__hideModifyFormModal();
-			});
-		});
+			}
+			if ( data.msg ) {
+				alert(data.msg);
+			}
+			ReplyList__hideModifyFormModal();
+			ReplyList__submitModifyFormDone = false;
+		};
+		startUploadFiles();
 	}
 	function ReplyList__showModifyFormModal(el) {
 		$('html').addClass('reply-modify-form-modal-actived');
