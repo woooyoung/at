@@ -23,6 +23,8 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 	@Autowired
 	@Value("${custom.logoText}")
 	private String siteName;
+	@Value("${spring.profiles.active}")
+	private String activeProfile;
 
 	@Autowired
 	private MemberService memberService;
@@ -96,6 +98,9 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 		request.setAttribute("loginedMemberId", loginedMemberId);
 		request.setAttribute("isLogined", isLogined);
 		request.setAttribute("loginedMember", loginedMember);
+
+		request.setAttribute("activeProfile", activeProfile);
+
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 }
