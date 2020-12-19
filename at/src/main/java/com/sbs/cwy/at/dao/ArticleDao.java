@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.cwy.at.dto.Article;
+import com.sbs.cwy.at.dto.Board;
 
 @Mapper
 public interface ArticleDao {
@@ -19,4 +20,6 @@ public interface ArticleDao {
 	void modify(Map<String, Object> param);
 
 	Article getArticleById(@Param("id") int id);
+
+	Board getBoardByCode(String boardCode);
 }

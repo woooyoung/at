@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="게시물 리스트" />
+<c:set var="pageTitle" value="${board.name} 게시물 리스트" />
 <%@ include file="../part/head.jspf"%>
 
 <div class="table-box con">
@@ -23,11 +23,15 @@
 				<tr>
 					<td>${article.id}</td>
 					<td>${article.regDate}</td>
-					<td><a href="detail?id=${article.id}">${article.title}</a></td>
+					<a href="${article.getDetailLink(board.code)}">${article.title}</a>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+</div>
+
+<div class="btn-box con margin-top-20">
+	<a class="btn btn-primary" href="./${board.code}-write">글쓰기</a>
 
 </div>
 
