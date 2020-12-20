@@ -17,7 +17,6 @@
 				+ "__common__attachment__1"];
 		var fileInput2 = form["file__article__" + param.id
 				+ "__common__attachment__2"];
-
 		var deleteFileInput1 = form["deleteFile__article__" + param.id
 				+ "__common__attachment__1"];
 		var deleteFileInput2 = form["deleteFile__article__" + param.id
@@ -29,7 +28,6 @@
 			fileInput2.value = '';
 		}
 		form.title.value = form.title.value.trim();
-
 		if (form.title.value.length == 0) {
 			form.title.focus();
 			alert('제목을 입력해주세요.');
@@ -180,6 +178,7 @@
 
 	<div class="btn-box margin-top-20">
 		<button type="submit" class="btn btn-primary">수정</button>
+		<a class="btn btn-info" href="${listUrl}">리스트</a>
 	</div>
 </form>
 
