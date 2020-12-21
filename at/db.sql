@@ -4,7 +4,7 @@ CREATE DATABASE `at`;
 USE `at`;
 
 # DB 사용자 생성
-GRANT ALL PRIVILEGES ON at.* TO `at`@`localhost` IDENTIFIED BY 'ghfkddl1!!';
+# GRANT ALL PRIVILEGES ON at.* TO `at`@`localhost` IDENTIFIED BY 'ghfkddl1!!';
 
 # article 테이블 세팅
 CREATE TABLE article (
