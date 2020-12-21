@@ -22,7 +22,7 @@
 		ON
 		A.memberId = M.id
 		WHERE A.displayStatus = 1
-		WHERE A.id = #{id}
+		AND A.id = #{id}
 	</select>
 
 	<select id="getArticleById" resultType="Article">
@@ -62,6 +62,7 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+
 	<resultMap type="Article" id="article">
 		<id property="id" column="id" />
 		<id property="regDate" column="regDate" />
@@ -76,4 +77,5 @@
 			<id property="writer" column="extra__writer" />
 		</association>
 	</resultMap>
+
 </mapper>

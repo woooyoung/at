@@ -40,10 +40,8 @@
 			alert('로그인 비밀번호를 5자 이상 입력해주세요.');
 			return;
 		}
-
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
-
 		form.submit();
 		MemberLoginForm__submitDone = true;
 	}
@@ -52,9 +50,10 @@
 	onsubmit="MemberLoginForm__submit(this); return false;">
 	<input type="hidden" name="redirectUri" value="${param.redirectUri}">
 	<input type="hidden" name="loginPwReal">
+
 	<table>
 		<colgroup>
-			<col width="100">
+			<col width="70">
 		</colgroup>
 		<tbody>
 			<tr>
@@ -79,6 +78,8 @@
 				<th>로그인</th>
 				<td>
 					<button class="btn btn-primary" type="submit">로그인</button>
+					<button class="btn btn-info" onclick="history.back();"
+						type="button">취소</button>
 				</td>
 			</tr>
 		</tbody>
