@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbs.cwy.at.config.AppConfig;
 import com.sbs.cwy.at.dto.Member;
 import com.sbs.cwy.at.service.MemberService;
 import com.sbs.cwy.at.util.Util;
@@ -100,6 +101,8 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 		request.setAttribute("loginedMember", loginedMember);
 
 		request.setAttribute("activeProfile", activeProfile);
+
+		request.setAttribute("appConfig", new AppConfig());
 
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
