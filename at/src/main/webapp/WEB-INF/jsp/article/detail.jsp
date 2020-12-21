@@ -94,10 +94,10 @@
 	<script>
 		var ArticleWriteReplyForm__submitDone = false;
 		function ArticleWriteReplyForm__submit(form) {
-			if ( ArticleWriteReplyForm__submitDone ) {
+			if (ArticleWriteReplyForm__submitDone) {
 				alert('처리중입니다.');
 			}
-			
+
 			form.body.value = form.body.value.trim();
 			if (form.body.value.length == 0) {
 				alert('댓글을 입력해주세요.');
@@ -107,32 +107,29 @@
 			ArticleWriteReplyForm__submitDone = true;
 			var startUploadFiles = function(onSuccess) {
 				var needToUpload = false;
-				if ( needToUpload == false ) {
+				if (needToUpload == false) {
 					needToUpload = form.file__reply__0__common__attachment__1.value.length > 0;
 				}
-				
-				if ( needToUpload == false ) {
+
+				if (needToUpload == false) {
 					needToUpload = form.file__reply__0__common__attachment__2.value.length > 0;
 				}
-				if ( needToUpload == false ) {
+				if (needToUpload == false) {
 					needToUpload = form.file__reply__0__common__attachment__3.value.length > 0;
 				}
-				
-				if ( needToUpload == false ) {
+
+				if (needToUpload == false) {
 					onSuccess();
 					return;
 				}
-				var fileUploadFormData = new FormData(form); 
-				
-				fileUploadFormData.delete("relTypeCode");
-				fileUploadFormData.delete("relId");
-				fileUploadFormData.delete("body");
+				var fileUploadFormData = new FormData(form);
+
 				$.ajax({
 					url : './../file/doUploadAjax',
 					data : fileUploadFormData,
 					processData : false,
 					contentType : false,
-					dataType:"json",
+					dataType : "json",
 					type : 'POST',
 					success : onSuccess
 				});
@@ -141,41 +138,41 @@
 				$.ajax({
 					url : './../reply/doWriteReplyAjax',
 					data : {
-						fileIdsStr: fileIdsStr,
-						body: form.body.value,
-						relTypeCode: form.relTypeCode.value,
-						relId: form.relId.value
+						fileIdsStr : fileIdsStr,
+						body : form.body.value,
+						relTypeCode : form.relTypeCode.value,
+						relId : form.relId.value
 					},
-					dataType:"json",
+					dataType : "json",
 					type : 'POST',
 					success : onSuccess
 				});
 			};
 			startUploadFiles(function(data) {
-				
+
 				var idsStr = '';
-				if ( data && data.body && data.body.fileIdsStr ) {
+				if (data && data.body && data.body.fileIdsStr) {
 					idsStr = data.body.fileIdsStr;
 				}
 				startWriteReply(idsStr, function(data) {
-					
-					if ( data.msg ) {
+
+					if (data.msg) {
 						alert(data.msg);
 					}
-					
+
 					form.body.value = '';
-					
-					if ( form.file__reply__0__common__attachment__1 ) {
+
+					if (form.file__reply__0__common__attachment__1) {
 						form.file__reply__0__common__attachment__1.value = '';
 					}
-					
-					if ( form.file__reply__0__common__attachment__2 ) {
+
+					if (form.file__reply__0__common__attachment__2) {
 						form.file__reply__0__common__attachment__2.value = '';
 					}
-					if ( form.file__reply__0__common__attachment__3 ) {
+					if (form.file__reply__0__common__attachment__3) {
 						form.file__reply__0__common__attachment__3.value = '';
 					}
-					
+
 					ArticleWriteReplyForm__submitDone = false;
 				});
 			});
@@ -372,11 +369,11 @@
 		var fileInput2 = form['file__reply__' + id + '__common__attachment__2'];
 		var fileInput3 = form['file__reply__' + id + '__common__attachment__3'];
 		var deleteFileInput1 = form["deleteFile__reply__" + id
-			+ "__common__attachment__1"];
+				+ "__common__attachment__1"];
 		var deleteFileInput2 = form["deleteFile__reply__" + id
-			+ "__common__attachment__2"];
+				+ "__common__attachment__2"];
 		var deleteFileInput3 = form["deleteFile__reply__" + id
-			+ "__common__attachment__3"];
+				+ "__common__attachment__3"];
 		if (fileInput1 && deleteFileInput1 && deleteFileInput1.checked) {
 			fileInput1.value = '';
 		}
@@ -390,46 +387,46 @@
 		// 파일 업로드 시작
 		var startUploadFiles = function() {
 			var needToUpload = false;
-			if ( needToUpload == false ) {
+			if (needToUpload == false) {
 				needToUpload = fileInput1 && fileInput1.value.length > 0;
 			}
-			if ( needToUpload == false ) {
+			if (needToUpload == false) {
 				needToUpload = deleteFileInput1 && deleteFileInput1.checked;
 			}
-			if ( needToUpload == false ) {
+			if (needToUpload == false) {
 				needToUpload = fileInput2 && fileInput2.value.length > 0;
 			}
-			if ( needToUpload == false ) {
+			if (needToUpload == false) {
 				needToUpload = deleteFileInput2 && deleteFileInput2.checked;
 			}
-			if ( needToUpload == false ) {
+			if (needToUpload == false) {
 				needToUpload = fileInput3 && fileInput3.value.length > 0;
 			}
-			if ( needToUpload == false ) {
+			if (needToUpload == false) {
 				needToUpload = deleteFileInput3 && deleteFileInput3.checked;
 			}
-			
+
 			if (needToUpload == false) {
 				onUploadFilesComplete();
 				return;
 			}
-			var fileUploadFormData = new FormData(form); 
-			
+			var fileUploadFormData = new FormData(form);
+
 			$.ajax({
 				url : './../file/doUploadAjax',
 				data : fileUploadFormData,
 				processData : false,
 				contentType : false,
-				dataType:"json",
+				dataType : "json",
 				type : 'POST',
 				success : onUploadFilesComplete
 			});
 		}
 		// 파일 업로드 완료시 실행되는 함수
 		var onUploadFilesComplete = function(data) {
-			
+
 			var fileIdsStr = '';
-			if ( data && data.body && data.body.fileIdsStr ) {
+			if (data && data.body && data.body.fileIdsStr) {
 				fileIdsStr = data.body.fileIdsStr;
 			}
 			startModifyReply(fileIdsStr);
@@ -439,32 +436,48 @@
 			$.post('../reply/doModifyReplyAjax', {
 				id : id,
 				body : body,
-				fileIdsStr: fileIdsStr
+				fileIdsStr : fileIdsStr
 			}, onModifyReplyComplete, 'json');
 		};
 		// 댓글 수정이 완료되면 실행되는 함수
 		var onModifyReplyComplete = function(data) {
 			if (data.resultCode && data.resultCode.substr(0, 2) == 'S-') {
 				// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
-				$('.reply-list-box tbody > tr[data-id="' + id + '"]').data('data-originBody', body);
-				$('.reply-list-box tbody > tr[data-id="' + id + '"] .reply-body').empty().append(body);
-				$('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box').empty();
-				$('.reply-list-box tbody > tr[data-id="' + id + '"] .img-box').empty();
-				if ( data && data.body && data.body.file__common__attachment ) {
-					for ( var fileNo in data.body.file__common__attachment ) {
+				$('.reply-list-box tbody > tr[data-id="' + id + '"]').data(
+						'data-originBody', body);
+				$(
+						'.reply-list-box tbody > tr[data-id="' + id
+								+ '"] .reply-body').empty().append(body);
+				$('.reply-list-box tbody > tr[data-id="' + id + '"] .video-box')
+						.empty();
+				$('.reply-list-box tbody > tr[data-id="' + id + '"] .img-box')
+						.empty();
+				if (data && data.body && data.body.file__common__attachment) {
+					for ( var fileNo in data.body.file__common__attachment) {
 						var file = data.body.file__common__attachment[fileNo];
-						if ( file.fileExtTypeCode == 'video' ) {
-							var html = '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
-							$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].video-box').append(html);
-						}
-						else {
-							var html = '<img src="/usr/file/showImg?id=' + file.id + '&updateDate=' + file.updateDate + '">';
-							$('.reply-list-box tbody > tr[data-id="' + id + '"] [data-file-no="' + fileNo + '"].img-box').append(html);
+						if (file.fileExtTypeCode == 'video') {
+							var html = '<video controls src="/usr/file/streamVideo?id='
+									+ file.id
+									+ '&updateDate='
+									+ file.updateDate
+									+ '">video not supported</video>';
+							$(
+									'.reply-list-box tbody > tr[data-id="' + id
+											+ '"] [data-file-no="' + fileNo
+											+ '"].video-box').append(html);
+						} else {
+							var html = '<img src="/usr/file/showImg?id='
+									+ file.id + '&updateDate='
+									+ file.updateDate + '">';
+							$(
+									'.reply-list-box tbody > tr[data-id="' + id
+											+ '"] [data-file-no="' + fileNo
+											+ '"].img-box').append(html);
 						}
 					}
 				}
 			}
-			if ( data.msg ) {
+			if (data.msg) {
 				alert(data.msg);
 			}
 			ReplyList__hideModifyFormModal();
@@ -483,27 +496,29 @@
 			var name = $el.attr('data-name');
 			name = name.replaceAll('__0__', '__' + id + '__');
 			$el.attr('name', name);
-			if ( $el.prop('type') == 'file' ) {
+			if ($el.prop('type') == 'file') {
 				$el.val('');
-			}
-			else if ( $el.prop('type') == 'checkbox' ) {
+			} else if ($el.prop('type') == 'checkbox') {
 				$el.prop('checked', false);
 			}
 		});
-		for ( var fileNo = 1; fileNo <= 3; fileNo++ ) {
+		for (var fileNo = 1; fileNo <= 3; fileNo++) {
 			$('.reply-modify-form-modal .video-box-file-' + fileNo).empty();
-			
+
 			var videoName = 'reply__' + id + '__common__attachment__' + fileNo;
-			var $videoBox = $('.reply-list-box [data-video-name="' + videoName + '"]');
-			
-			if ( $videoBox.length > 0 ) {
-				$('.reply-modify-form-modal .video-box-file-' + fileNo).append($videoBox.html());
+			var $videoBox = $('.reply-list-box [data-video-name="' + videoName
+					+ '"]');
+
+			if ($videoBox.length > 0) {
+				$('.reply-modify-form-modal .video-box-file-' + fileNo).append(
+						$videoBox.html());
 			}
 			var imgName = 'reply__' + id + '__common__attachment__' + fileNo;
 			var $imgBox = $('.reply-list-box [data-img-name="' + imgName + '"]');
-			
-			if ( $imgBox.length > 0 ) {
-				$('.reply-modify-form-modal .img-box-file-' + fileNo).append($imgBox.html());
+
+			if ($imgBox.length > 0) {
+				$('.reply-modify-form-modal .img-box-file-' + fileNo).append(
+						$imgBox.html());
 			}
 		}
 		form.id.value = id;
@@ -553,46 +568,52 @@
 		html += '<td class="visible-on-md-up">' + reply.extra.writer + '</td>';
 		html += '<td>';
 		html += '<div class="reply-body">' + reply.body + '</div>';
-		html += '<div class="visible-on-sm-down">날짜 : ' + reply.regDate + '</div>';
-		html += '<div class="visible-on-sm-down">작성 : ' + reply.extra.writer + '</div>';
-		for ( var fileNo = 1; fileNo <= 3; fileNo++ ) {
+		html += '<div class="visible-on-sm-down">날짜 : ' + reply.regDate
+				+ '</div>';
+		html += '<div class="visible-on-sm-down">작성 : ' + reply.extra.writer
+				+ '</div>';
+		for (var fileNo = 1; fileNo <= 3; fileNo++) {
 			var file = null;
-			if ( reply.extra.file__common__attachment && reply.extra.file__common__attachment[fileNo] ) {
+			if (reply.extra.file__common__attachment
+					&& reply.extra.file__common__attachment[fileNo]) {
 				file = reply.extra.file__common__attachment[fileNo];
 			}
-			
+
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
-			if ( file && file.fileExtTypeCode == 'video' ) {
-				html += '<video controls src="/usr/file/streamVideo?id=' + file.id + '&updateDate=' + file.updateDate + '">video not supported</video>';
+			if (file && file.fileExtTypeCode == 'video') {
+				html += '<video controls src="/usr/file/streamVideo?id='
+						+ file.id + '&updateDate=' + file.updateDate
+						+ '">video not supported</video>';
 			}
 			html += '</div>';
 			html += '<div class="img-box img-box-auto" data-img-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
-			if ( file && file.fileExtTypeCode == 'img' ) {
-				html += '<img src="/usr/file/showImg?id=' + file.id + '&updateDate=' + file.updateDate + '">';
-	        }
+			if (file && file.fileExtTypeCode == 'img') {
+				html += '<img src="/usr/file/showImg?id=' + file.id
+						+ '&updateDate=' + file.updateDate + '">';
+			}
 			html += '</div>';
 		}
 		html += '<div class="visible-on-sm-down margin-top-10">';
 		if (reply.extra.actorCanDelete) {
 			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
 		}
-		
+
 		if (reply.extra.actorCanModify) {
 			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
 		}
-		
+
 		html += '</div>';
-		
+
 		html += '</td>';
 		html += '<td class="visible-on-md-up">';
 		if (reply.extra.actorCanDelete) {
 			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
 		}
-		
+
 		if (reply.extra.actorCanModify) {
 			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
 		}
-		
+
 		html += '</td>';
 		html += '</tr>';
 		var $tr = $(html);
