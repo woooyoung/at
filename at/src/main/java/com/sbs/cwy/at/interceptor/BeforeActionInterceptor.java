@@ -29,6 +29,8 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private AppConfig appConfig;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -102,7 +104,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 
 		request.setAttribute("activeProfile", activeProfile);
 
-		request.setAttribute("appConfig", new AppConfig());
+		request.setAttribute("appConfig", appConfig);
 
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}

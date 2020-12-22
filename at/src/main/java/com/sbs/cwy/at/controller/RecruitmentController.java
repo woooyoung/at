@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sbs.cwy.at.config.AppConfig;
 import com.sbs.cwy.at.dto.Job;
 import com.sbs.cwy.at.dto.Member;
 import com.sbs.cwy.at.dto.Recruitment;
@@ -23,11 +24,16 @@ import com.sbs.cwy.at.util.Util;
 public class RecruitmentController {
 	@Autowired
 	private RecruitmentService recruitmentService;
+	@Autowired
+	private AppConfig appConfig;
 
 	@RequestMapping("/usr/recruitment/{jobCode}-list")
-	public String showList(Model model, @PathVariable("jobCode") String jobCode) {
+	public String showList(Model model, @PathVariable("jobCode") String jobCode, HttpServletRequest req) {
 		Job job = recruitmentService.getJobByCode(jobCode);
 		model.addAttribute("job", job);
+
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		model.addAttribute("actorCanWrite", appConfig.actorCanWrite("recruitment", loginedMember));
 
 		List<Recruitment> recruitments = recruitmentService.getForPrintRecruitments();
 
@@ -37,8 +43,9 @@ public class RecruitmentController {
 	}
 
 	@RequestMapping("/usr/recruitment/{jobCode}-detail")
-	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("jobCode") String jobCode, String listUrl) {
-		if ( listUrl == null ) {
+	public String showDetail(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req,
+			@PathVariable("jobCode") String jobCode, String listUrl) {
+		if (listUrl == null) {
 			listUrl = "./" + jobCode + "-list";
 		}
 		model.addAttribute("listUrl", listUrl);
@@ -48,17 +55,23 @@ public class RecruitmentController {
 
 		int id = Integer.parseInt((String) param.get("id"));
 
-		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
 
 		Recruitment recruitment = recruitmentService.getForPrintRecruitmentById(loginedMember, id);
 
 		model.addAttribute("recruitment", recruitment);
 
+		boolean actorIsWriter = recruitment.getMemberId() == loginedMember.getId();
+		model.addAttribute("needToLoadMore", actorIsWriter);
+		model.addAttribute("needToShowApplymentWriteForm", !actorIsWriter);
+		model.addAttribute("actorIsWriter", actorIsWriter);
+
 		return "recruitment/detail";
 	}
 
 	@RequestMapping("/usr/recruitment/{jobCode}-modify")
-	public String showModify(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("jobCode") String jobCode, String listUrl) {
+	public String showModify(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req,
+			@PathVariable("jobCode") String jobCode, String listUrl) {
 		model.addAttribute("listUrl", listUrl);
 
 		Job job = recruitmentService.getJobByCode(jobCode);
@@ -66,7 +79,7 @@ public class RecruitmentController {
 
 		int id = Integer.parseInt((String) param.get("id"));
 
-		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
 		Recruitment recruitment = recruitmentService.getForPrintRecruitmentById(loginedMember, id);
 
 		model.addAttribute("recruitment", recruitment);
@@ -76,7 +89,7 @@ public class RecruitmentController {
 
 	@RequestMapping("/usr/recruitment/{jobCode}-write")
 	public String showWrite(@PathVariable("jobCode") String jobCode, Model model, String listUrl) {
-		if ( listUrl == null ) {
+		if (listUrl == null) {
 			listUrl = "./" + jobCode + "-list";
 		}
 		model.addAttribute("listUrl", listUrl);
@@ -87,15 +100,16 @@ public class RecruitmentController {
 	}
 
 	@RequestMapping("/usr/recruitment/{jobCode}-doModify")
-	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, @PathVariable("jobCode") String jobCode, Model model) {
+	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id,
+			@PathVariable("jobCode") String jobCode, Model model) {
 		Job job = recruitmentService.getJobByCode(jobCode);
 		model.addAttribute("job", job);
 		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr", "recruitmentId", "id");
-		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
 
 		ResultData checkActorCanModifyResultData = recruitmentService.checkActorCanModify(loginedMember, id);
 
-		if (checkActorCanModifyResultData.isFail() ) {
+		if (checkActorCanModifyResultData.isFail()) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("msg", checkActorCanModifyResultData.getMsg());
 
@@ -110,12 +124,13 @@ public class RecruitmentController {
 	}
 
 	@RequestMapping("/usr/recruitment/{jobCode}-doWrite")
-	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("jobCode") String jobCode, Model model) {
+	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req,
+			@PathVariable("jobCode") String jobCode, Model model) {
 		Job job = recruitmentService.getJobByCode(jobCode);
 		model.addAttribute("job", job);
 
 		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "fileIdsStr");
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
 		newParam.put("jobId", job.getId());
 		newParam.put("memberId", loginedMemberId);
 		int newRecruitmentId = recruitmentService.write(newParam);
@@ -124,5 +139,34 @@ public class RecruitmentController {
 		redirectUri = redirectUri.replace("#id", newRecruitmentId + "");
 
 		return "redirect:" + redirectUri;
+	}
+
+	@RequestMapping("/usr/recruitment/{jobCode}-doDelete")
+	public String doDelete(@RequestParam Map<String, Object> param, @RequestParam("id") int id, HttpServletRequest req,
+			@PathVariable("jobCode") String jobCode, Model model) {
+		Job job = recruitmentService.getJobByCode(jobCode);
+
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+
+		ResultData checkActorCanDeleteResultData = recruitmentService.checkActorCanDelete(loginedMember, id);
+
+		if (checkActorCanDeleteResultData.isFail()) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("msg", checkActorCanDeleteResultData.getMsg());
+
+			return "common/redirect";
+		}
+
+		ResultData deleteResultData = recruitmentService.delete(id);
+		model.addAttribute("msg", deleteResultData.getMsg());
+		String redirectUri = (String) param.get("redirectUri");
+
+		if (redirectUri == null || redirectUri.length() == 0) {
+			redirectUri = jobCode + "-list";
+		}
+
+		model.addAttribute("redirectUri", redirectUri);
+
+		return "common/redirect";
 	}
 }
