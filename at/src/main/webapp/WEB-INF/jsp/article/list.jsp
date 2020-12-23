@@ -24,8 +24,7 @@
 				<tr>
 					<td>${article.id}</td>
 					<td>${article.regDate}</td>
-					<td>
-						<a href="${article.getDetailLink(board.code)}">${article.title}</a>
+					<td><a href="${article.getDetailLink(board.code)}">${article.forPrintTitle}</a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -46,13 +45,9 @@
 			<c:forEach items="${articles}" var="article">
 				<tr>
 					<td>${article.id}</td>
-					<td>
-						<a href="${article.getDetailLink(board.code)}">${article.title}</a>
-						<br />
-						날짜 : ${article.regDate}
-						<br />
-						작성 : ${article.extra.writer}
-					</td>
+					<td><a href="${article.getDetailLink(board.code)}">${article.forPrintTitle}</a>
+						<br /> 날짜 : ${article.regDate} <br /> 작성 :
+						${article.extra.writer}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

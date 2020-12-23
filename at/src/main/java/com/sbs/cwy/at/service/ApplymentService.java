@@ -14,6 +14,7 @@ import com.sbs.cwy.at.dao.ApplymentDao;
 import com.sbs.cwy.at.dto.Applyment;
 import com.sbs.cwy.at.dto.File;
 import com.sbs.cwy.at.dto.Member;
+import com.sbs.cwy.at.dto.Recruitment;
 import com.sbs.cwy.at.dto.ResultData;
 import com.sbs.cwy.at.util.Util;
 
@@ -170,6 +171,12 @@ public class ApplymentService {
 	}
 
 	public ResultData checkActorCanWriteApplyment(Member actor, String relTypeCode, int relId) {
+		Recruitment recruitment = recruitmentService.getRecruitmentById(relId);
+
+		if ( recruitment.isCompleteStatus() ) {
+			return new ResultData("F-2", "마감되었습니다.");
+		}
+		
 		Applyment applyment = applymentDao.getApplymentByRelIdAndMemberId(relTypeCode, relId, actor.getId());
 
 		if (applyment != null) {
