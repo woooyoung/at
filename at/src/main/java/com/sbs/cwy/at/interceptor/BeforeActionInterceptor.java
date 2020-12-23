@@ -1,7 +1,5 @@
 package com.sbs.cwy.at.interceptor;
 
-import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sbs.cwy.at.config.AppConfig;
 import com.sbs.cwy.at.dto.Member;
 import com.sbs.cwy.at.service.MemberService;
@@ -29,6 +26,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private MemberService memberService;
+
 	@Autowired
 	private AppConfig appConfig;
 
@@ -75,16 +73,17 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 				isAjax = true;
 			}
 		}
+
 		if (isAjax == false) {
 			if (requestUri.contains("/get")) {
 				isAjax = true;
 			}
 		}
+
 		request.setAttribute("isAjax", isAjax);
 
 		// 설정 파일에 있는 정보를 request에 담는다.
 		request.setAttribute("logoText", this.siteName);
-
 		HttpSession session = request.getSession();
 
 		// 로그인 여부에 관련된 정보를 request에 담는다.

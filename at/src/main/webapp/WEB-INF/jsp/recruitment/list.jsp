@@ -54,8 +54,16 @@
 	</table>
 </div>
 
+<style>
+.btn-box:empty {
+	display: none;
+}
+</style>
+
 <div class="btn-box con margin-top-20">
-	<a class="btn btn-primary" href="./${job.code}-write">글쓰기</a>
+	<c:if test="${actorCanWrite}">
+		<a class="btn btn-primary" href="./${job.code}-write">새 모집공고</a>
+	</c:if>
 </div>
 
 <%@ include file="../part/foot.jspf"%>

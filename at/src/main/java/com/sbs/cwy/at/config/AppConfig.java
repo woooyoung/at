@@ -1,7 +1,10 @@
 package com.sbs.cwy.at.config;
 
+import org.springframework.stereotype.Component;
+
 import com.sbs.cwy.at.dto.Member;
 
+@Component
 public class AppConfig {
 	public int getMaxAttachmentFileNo(String relTypeCode) {
 		return 10;
