@@ -45,7 +45,7 @@
 							</c:if> <c:if test="${file.fileExtTypeCode == 'img'}">
 								<div class="img-box img-box-auto">
 									<img
-										src="/usr/file/showImg?id=${file.id}&updateDate=${file.updateDate}"
+										src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}"
 										alt="" />
 								</div>
 							</c:if></td>
@@ -79,7 +79,6 @@
 			if (WriteReplyForm__submitDone) {
 				alert('처리중입니다.');
 			}
-
 			form.body.value = form.body.value.trim();
 			if (form.body.value.length == 0) {
 				alert('댓글을 입력해주세요.');
@@ -93,7 +92,6 @@
 					needToUpload = form.file__reply__0__common__attachment__1
 							&& form.file__reply__0__common__attachment__1.value.length > 0;
 				}
-
 				if (needToUpload == false) {
 					needToUpload = form.file__reply__0__common__attachment__2
 							&& form.file__reply__0__common__attachment__2.value.length > 0;
@@ -102,13 +100,11 @@
 					needToUpload = form.file__reply__0__common__attachment__3
 							&& form.file__reply__0__common__attachment__3.value.length > 0;
 				}
-
 				if (needToUpload == false) {
 					onSuccess();
 					return;
 				}
 				var fileUploadFormData = new FormData(form);
-
 				$.ajax({
 					url : './../file/doUploadAjax',
 					data : fileUploadFormData,
@@ -134,30 +130,24 @@
 				});
 			};
 			startUploadFiles(function(data) {
-
 				var idsStr = '';
 				if (data && data.body && data.body.fileIdsStr) {
 					idsStr = data.body.fileIdsStr;
 				}
 				startWriteReply(idsStr, function(data) {
-
 					if (data.msg) {
 						alert(data.msg);
 					}
-
 					form.body.value = '';
-
 					if (form.file__reply__0__common__attachment__1) {
 						form.file__reply__0__common__attachment__1.value = '';
 					}
-
 					if (form.file__reply__0__common__attachment__2) {
 						form.file__reply__0__common__attachment__2.value = '';
 					}
 					if (form.file__reply__0__common__attachment__3) {
 						form.file__reply__0__common__attachment__3.value = '';
 					}
-
 					WriteReplyForm__submitDone = false;
 				});
 			});
@@ -201,8 +191,7 @@
 				</c:forEach>
 				<tr>
 					<th>작성</th>
-					<td><input class="btn btn-primary" type="submit" value="작성">
-					</td>
+					<td><input class="btn btn-primary" type="submit" value="작성"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -390,13 +379,11 @@
 			if (needToUpload == false) {
 				needToUpload = deleteFileInput3 && deleteFileInput3.checked;
 			}
-
 			if (needToUpload == false) {
 				onUploadFilesComplete();
 				return;
 			}
 			var fileUploadFormData = new FormData(form);
-
 			$.ajax({
 				url : './../file/doUploadAjax',
 				data : fileUploadFormData,
@@ -409,7 +396,6 @@
 		}
 		// 파일 업로드 완료시 실행되는 함수
 		var onUploadFilesComplete = function(data) {
-
 			var fileIdsStr = '';
 			if (data && data.body && data.body.fileIdsStr) {
 				fileIdsStr = data.body.fileIdsStr;
@@ -452,9 +438,8 @@
 											+ '"] [data-file-no="' + fileNo
 											+ '"].video-box').append(html);
 						} else {
-							var html = '<img src="/usr/file/showImg?id='
-									+ file.id + '&updateDate='
-									+ file.updateDate + '">';
+							var html = '<img src="/usr/file/img?id=' + file.id
+									+ '&updateDate=' + file.updateDate + '">';
 							$(
 									'.reply-list-box tbody > tr[data-id="' + id
 											+ '"] [data-file-no="' + fileNo
@@ -490,21 +475,16 @@
 		});
 		for (var fileNo = 1; fileNo <= 3; fileNo++) {
 			$('.reply-modify-form-modal .video-box-file-' + fileNo).empty();
-
 			var videoName = 'reply__' + id + '__common__attachment__' + fileNo;
 			var $videoBox = $('.reply-list-box [data-video-name="' + videoName
 					+ '"]');
-
 			if ($videoBox.length > 0) {
 				$('.reply-modify-form-modal .video-box-file-' + fileNo).append(
 						$videoBox.html());
 			}
-
 			$('.reply-modify-form-modal .img-box-file-' + fileNo).empty();
-
 			var imgName = 'reply__' + id + '__common__attachment__' + fileNo;
 			var $imgBox = $('.reply-list-box [data-img-name="' + imgName + '"]');
-
 			if ($imgBox.length > 0) {
 				$('.reply-modify-form-modal .img-box-file-' + fileNo).append(
 						$imgBox.html());
@@ -567,7 +547,6 @@
 					&& reply.extra.file__common__attachment[fileNo]) {
 				file = reply.extra.file__common__attachment[fileNo];
 			}
-
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'video') {
 				html += '<video controls src="/usr/file/streamVideo?id='
@@ -577,7 +556,7 @@
 			html += '</div>';
 			html += '<div class="img-box img-box-auto" data-img-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'img') {
-				html += '<img src="/usr/file/showImg?id=' + file.id
+				html += '<img src="/usr/file/img?id=' + file.id
 						+ '&updateDate=' + file.updateDate + '">';
 			}
 			html += '</div>';
@@ -586,23 +565,18 @@
 		if (reply.extra.actorCanDelete) {
 			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
 		}
-
 		if (reply.extra.actorCanModify) {
 			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
 		}
-
 		html += '</div>';
-
 		html += '</td>';
 		html += '<td class="visible-on-md-up">';
 		if (reply.extra.actorCanDelete) {
 			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
 		}
-
 		if (reply.extra.actorCanModify) {
 			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
 		}
-
 		html += '</td>';
 		html += '</tr>';
 		var $tr = $(html);

@@ -50,8 +50,30 @@ public class FileController {
 				}
 			});
 
-	@RequestMapping(value = "/usr/file/showImg", method = RequestMethod.GET)
-	public void showImg3(HttpServletResponse response, int id) throws IOException {
+	@RequestMapping(value = "/usr/file/img", method = RequestMethod.GET)
+	public void showImg(HttpServletResponse response, int id) throws IOException {
+
+		File file = Util.getCacheData(fileCache, id);
+
+		InputStream in = new ByteArrayInputStream(file.getBody());
+
+		switch (file.getFileExtType2Code()) {
+		case "jpg":
+			response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+			break;
+		case "png":
+			response.setContentType(MediaType.IMAGE_PNG_VALUE);
+			break;
+		case "gif":
+			response.setContentType(MediaType.IMAGE_GIF_VALUE);
+			break;
+		}
+
+		IOUtils.copy(in, response.getOutputStream());
+	}
+
+	@RequestMapping(value = "/usr/file/tempImg", method = RequestMethod.GET)
+	public void showTempImg(HttpServletResponse response, int id) throws IOException {
 
 		File file = Util.getCacheData(fileCache, id);
 
@@ -79,6 +101,62 @@ public class FileController {
 
 		return videoStreamService.prepareContent(new ByteArrayInputStream(file.getBody()), file.getFileSize(),
 				file.getFileExt(), httpRangeList);
+	}
+
+	@RequestMapping("/usr/file/doUploadEditorBlobAjax")
+	@ResponseBody
+	public ResultData uploadEditorBlobAjax(@RequestParam Map<String, Object> param, HttpServletRequest req,
+			MultipartRequest multipartRequest) {
+
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+		List<Integer> fileIds = new ArrayList<>();
+		List<Map<String, Object>> fileInfs = new ArrayList<>();
+
+		for (String fileInputName : fileMap.keySet()) {
+			MultipartFile multipartFile = fileMap.get(fileInputName);
+
+			String[] fileInputNameBits = fileInputName.split("__");
+
+			if (fileInputNameBits[0].equals("file")) {
+				byte[] fileBytes = Util.getFileBytesFromMultipartFile(multipartFile);
+
+				if (fileBytes == null || fileBytes.length == 0) {
+					continue;
+				}
+
+				String relTypeCode = fileInputNameBits[1];
+				int relId = Integer.parseInt(fileInputNameBits[2]);
+				String typeCode = fileInputNameBits[3];
+				String type2Code = fileInputNameBits[4];
+				int fileNo = Integer.parseInt(fileInputNameBits[5]);
+				String originFileName = multipartFile.getOriginalFilename();
+				String fileExtTypeCode = Util.getFileExtTypeCodeFromFileName(multipartFile.getOriginalFilename());
+				String fileExtType2Code = Util.getFileExtType2CodeFromFileName(multipartFile.getOriginalFilename());
+				String fileExt = Util.getFileExtFromFileName(multipartFile.getOriginalFilename()).toLowerCase();
+				int fileSize = (int) multipartFile.getSize();
+
+				int fileId = fileService.saveFile(relTypeCode, relId, typeCode, type2Code, fileNo, originFileName,
+						fileExtTypeCode, fileExtType2Code, fileExt, fileBytes, fileSize);
+				fileIds.add(fileId);
+				Map<String, Object> fileInf = new HashMap<>();
+				fileInf.put("originFileName", originFileName);
+				fileInf.put("fileExtTypeCode", fileExtTypeCode);
+				fileInf.put("fileExtType2Code", fileExtType2Code);
+				fileInf.put("fileExt", fileExt);
+				fileInf.put("fileSize", fileSize);
+				fileInf.put("url", "/usr/file/tempImg?id=" + fileId + "&updateDate="
+						+ Util.getNowDateStr().replace("-", "").replace(":", "").replace(" ", ""));
+				fileInfs.add(fileInf);
+			}
+		}
+
+		Map<String, Object> rsDataBody = new HashMap<>();
+		rsDataBody.put("fileIdsStr", Joiner.on(",").join(fileIds));
+		rsDataBody.put("fileIds", fileIds);
+		rsDataBody.put("fileInfs", fileInfs);
+
+		return new ResultData("S-1", String.format("%d개의 파일을 저장했습니다.", fileIds.size()), rsDataBody);
 	}
 
 	@RequestMapping("/usr/file/doUploadAjax")

@@ -16,6 +16,30 @@ label[for] {
 	user-select: none;
 }
 
+.abs-full {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.relative {
+	position: relative;
+}
+
+.ratio-16-9::after {
+	content: "";
+	display: block;
+	padding-top: 56.25%;
+}
+
+.ratio-1-1::after {
+	content: "";
+	display: block;
+	padding-top: 100%;
+}
+
 /* 라이브러리 */
 .img-box.img-box-auto>img {
 	max-width: 100%;

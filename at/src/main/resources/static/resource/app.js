@@ -9,4 +9,4 @@ function MobileTopBar__init() {
 
 $(function() {
 	MobileTopBar__init();
-}) 
+})

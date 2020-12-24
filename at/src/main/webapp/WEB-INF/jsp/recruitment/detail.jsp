@@ -108,7 +108,7 @@
 							</c:if> <c:if test="${file.fileExtTypeCode == 'img'}">
 								<div class="img-box img-box-auto">
 									<img
-										src="/usr/file/showImg?id=${file.id}&updateDate=${file.updateDate}"
+										src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}"
 										alt="" />
 								</div>
 							</c:if></td>
@@ -262,8 +262,7 @@
 					<c:set var="fileExtTypeCode"
 						value="${appConfig.getAttachmentFileExtTypeCode('applyment', i)}" />
 					<tr>
-						<th>
-							${appConfig.getAttachmentFileInputDisplayName('applyment', i)}</th>
+						<th>${appConfig.getAttachmentFileInputDisplayName('applyment', i)}</th>
 						<td>
 							<div class="form-control-box">
 								<input type="file"
@@ -275,8 +274,7 @@
 				</c:forEach>
 				<tr>
 					<th>신청</th>
-					<td><input class="btn btn-primary" type="submit" value="신청">
-					</td>
+					<td><input class="btn btn-primary" type="submit" value="신청"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -530,15 +528,16 @@
 				// 성공시에는 기존에 그려진 내용을 수정해야 한다.!!
 				$('.applyment-list-box tbody > tr[data-id="' + id + '"]').data(
 						'data-originBody', body);
-				$(
-						'.applyment-list-box tbody > tr[data-id="' + id
-								+ '"] .applyment-body').empty().append(body);
-				$(
-						'.applyment-list-box tbody > tr[data-id="' + id
-								+ '"] .video-box').empty();
-				$(
-						'.applyment-list-box tbody > tr[data-id="' + id
-								+ '"] .img-box').empty();
+				var selector;
+				selector = '.applyment-list-box tbody > tr[data-id="' + id
+						+ '"] .applyment-body'
+				$(selector).empty().append(body);
+				selector = '.applyment-list-box tbody > tr[data-id="' + id
+						+ '"] .video-box'
+				$(selector).empty();
+				selector = '.applyment-list-box tbody > tr[data-id="' + id
+						+ '"] .img-box';
+				$(selector).empty();
 				if (data && data.body && data.body.file__common__attachment) {
 					for ( var fileNo in data.body.file__common__attachment) {
 						var file = data.body.file__common__attachment[fileNo];
@@ -548,20 +547,21 @@
 									+ '&updateDate='
 									+ file.updateDate
 									+ '">video not supported</video>';
-							$(
-									'.applyment-list-box tbody > tr[data-id="'
-											+ id + '"] [data-file-no="'
-											+ fileNo + '"].video-box').append(
-									html);
+							selector = '.applyment-list-box tbody > tr[data-id="'
+									+ id
+									+ '"] [data-file-no="'
+									+ fileNo
+									+ '"].video-box';
+							$(selector).append(html);
 						} else {
-							var html = '<img src="/usr/file/showImg?id='
-									+ file.id + '&updateDate='
-									+ file.updateDate + '">';
-							$(
-									'.applyment-list-box tbody > tr[data-id="'
-											+ id + '"] [data-file-no="'
-											+ fileNo + '"].img-box').append(
-									html);
+							var html = '<img src="/usr/file/img?id=' + file.id
+									+ '&updateDate=' + file.updateDate + '">';
+							selector = '.applyment-list-box tbody > tr[data-id="'
+									+ id
+									+ '"] [data-file-no="'
+									+ fileNo
+									+ '"].img-box';
+							$(selector).append(html);
 						}
 					}
 				}
@@ -587,11 +587,9 @@
 				value : 'show'
 			}, function(data) {
 				$tr.removeClass('hide');
-
 				ApplymentList__hiddenApplymentsCount--;
 				$('.hidden-applyments-count').text(
 						'(' + ApplymentList__hiddenApplymentsCount + '건)');
-
 			}, 'json');
 		} else if ($tr.addClass('hide')) {
 			$.post('/usr/applyment/doSetVisible', {
@@ -599,11 +597,9 @@
 				value : 'hide'
 			}, function(data) {
 				$tr.addClass('hide');
-
 				ApplymentList__hiddenApplymentsCount++;
 				$('.hidden-applyments-count').text(
 						'(' + ApplymentList__hiddenApplymentsCount + '건)');
-
 			}, 'json');
 		}
 	}
@@ -654,7 +650,6 @@
 	var ApplymentList__loadMoreInterval = 1 * 1000;
 	var ApplymentList__applymentsCount = 0;
 	var ApplymentList__hiddenApplymentsCount = 0;
-
 	function ApplymentList__loadMoreCallback(data) {
 		if (data.body.applyments && data.body.applyments.length > 0) {
 			ApplymentList__lastLodedId = data.body.applyments[data.body.applyments.length - 1].id;
@@ -692,20 +687,16 @@
 		}, 'json');
 	}
 	function ApplymentList__drawApplyment(applyment) {
-
 		ApplymentList__applymentsCount++;
 		$('.applyments-count')
 				.text('(' + ApplymentList__applymentsCount + '건)');
-
 		var html = '';
 		var trClassStr = '';
 		if (applyment.hideStatus) {
 			trClassStr = 'hide';
-
 			ApplymentList__hiddenApplymentsCount++;
 			$('.hidden-applyments-count').text(
 					'(' + ApplymentList__hiddenApplymentsCount + '건)');
-
 		}
 		html += '<tr data-id="' + applyment.id + '" class="' + trClassStr + '">';
 		html += '<td>' + applyment.id + '</td>';
@@ -749,7 +740,7 @@
 			html += '</div>';
 			html += '<div class="img-box img-box-auto" data-img-name="applyment__' + applyment.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'img') {
-				html += '<img src="/usr/file/showImg?id=' + file.id
+				html += '<img src="/usr/file/img?id=' + file.id
 						+ '&updateDate=' + file.updateDate + '">';
 			}
 			html += '</div>';

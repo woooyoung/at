@@ -4,6 +4,7 @@
 
 <c:set var="pageTitle" value="${job.name} 모집 수정" />
 <%@ include file="../part/head.jspf"%>
+<%@ include file="../part/toastuiEditor.jspf"%>
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
@@ -24,7 +25,6 @@
 			return;
 		}
 		form.title.value = form.title.value.trim();
-
 		form.body.value = form.body.value.trim();
 		if (form.body.value.length == 0) {
 			form.body.focus();
@@ -92,7 +92,8 @@
 	onsubmit="RecruitmentWriteForm__submit(this); return false;">
 	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
 		name="redirectUri" value="/usr/recruitment/${job.code}-detail?id=#id">
-	<input type="hidden" name="roleTypeCode" value="actingRole" />
+	<input type="hidden" name="roleTypeCode" value="actingRole"> <input
+		type="hidden" name="body">
 
 	<table>
 		<colgroup>
@@ -124,7 +125,17 @@
 				<th>특이 사항</th>
 				<td>
 					<div class="form-control-box">
-						<textarea placeholder="특이 사항을 입력해주세요." name="body" maxlength="2000"></textarea>
+						<script type="text/x-template">
+# 유튜브 동영상 삽입
+
+```youtube
+https://www.youtube.com/watch?v=2UXq0e75V6s(동영상 주소)
+```
+
+# 이미지 삽입
+![img](이미지 주소)
+						</script>
+						<div class="toast-editor"></div>
 					</div>
 				</td>
 			</tr>

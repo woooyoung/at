@@ -88,7 +88,7 @@
 
 	<table>
 		<colgroup>
-			<col width="100"></col>
+			<col class="table-first-col">
 		</colgroup>
 		<tbody>
 			<tr>

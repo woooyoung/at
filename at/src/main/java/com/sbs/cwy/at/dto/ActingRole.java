@@ -20,8 +20,8 @@ public class ActingRole {
 	private String age;
 	private boolean scriptStatus;
 	private String gender;
-	private int scenesCount;
-	private int shootingsCount;
+	private String scenesCount;
+	private String shootingsCount;
 	private String character;
 	private String etc;
 	private Map<String, Object> extra;
@@ -30,7 +30,7 @@ public class ActingRole {
 		String artworkName = extra != null ? (String) extra.get("artworkName") : "";
 		String directorName = extra != null ? (String) extra.get("directorName") : "";
 
-		String title = artworkName + "(" + directorName + "감독), " + name + "역";
+		String title = id + "번," + artworkName + "(" + directorName + "감독), " + name + "역";
 
 		return title;
 	}
