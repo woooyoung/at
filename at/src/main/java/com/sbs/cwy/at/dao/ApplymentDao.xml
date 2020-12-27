@@ -4,22 +4,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sbs.cwy.at.dao.ApplymentDao">
 	<select id="getForPrintApplyments" resultMap="applyment">
-	    <![CDATA[
 		SELECT AM.*,
 		M.nickname AS extra__writer,
-		M.name AS extra__writerRealName,
+		M.name AS
+		extra__writerRealName,
 		M.cellphoneNo AS extra__writerCellphoneNo,
 		M.email AS extra__writerEmail,
 		M.nickname AS extra__writer
-		FROM applyment AS AM
+		FROM
+		applyment AS AM
 		INNER JOIN member AS M
 		ON AM.memberId = M.id
-		WHERE AM.relId = #{relId}
+		WHERE
+		AM.relId = #{relId}
 		AND AM.relTypeCode = #{relTypeCode}
-		AND AM.displayStatus = 1
-		AND AM.id >= #{from}
+		AND
+		AM.displayStatus = 1
+		AND AM.id <![CDATA[ >= ]]>
+		#{from}
+		<if test="memberId != null">AND AM.memberId = #{memberId}</if>
 		ORDER BY AM.id ASC
-		]]>
 	</select>
 
 	<insert id="writeApplyment" useGeneratedKeys="true"

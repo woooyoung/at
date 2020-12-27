@@ -17,6 +17,7 @@ import com.sbs.cwy.at.dto.Applyment;
 import com.sbs.cwy.at.dto.Member;
 import com.sbs.cwy.at.dto.ResultData;
 import com.sbs.cwy.at.service.ApplymentService;
+import com.sbs.cwy.at.service.FileService;
 import com.sbs.cwy.at.service.RecruitmentService;
 import com.sbs.cwy.at.util.Util;
 
@@ -28,6 +29,8 @@ public class ApplymentController {
 	private RecruitmentService recruitmentService;
 	@Autowired
 	private AppConfig appConfig;
+	@Autowired
+	private FileService fileService;
 
 	@RequestMapping("/usr/applyment/getForPrintApplyments")
 	@ResponseBody
@@ -39,6 +42,10 @@ public class ApplymentController {
 		Util.changeMapKey(param, "recruitmentId", "relId");
 
 		boolean actorIsWriter = recruitmentService.actorIsWriter(loginedMember, Util.getAsInt(param.get("relId")));
+
+		if (actorIsWriter == false) {
+			param.put("memberId", loginedMember.getId());
+		}
 
 		param.put("actor", loginedMember);
 		List<Applyment> applyments = applymentService.getForPrintApplyments(param);
@@ -59,6 +66,8 @@ public class ApplymentController {
 				(String) param.get("relTypeCode"), Util.getAsInt(param.get("relId")));
 
 		if (checkWriteApplymentAvailableResultData.isFail()) {
+			fileService.deleteFiles((String) param.get("fileIdsStr"));
+
 			return checkWriteApplymentAvailableResultData;
 		}
 

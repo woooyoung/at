@@ -1,9 +1,11 @@
 package com.sbs.cwy.at.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,6 +136,17 @@ public class FileService {
 		}
 
 		return filesMap;
+	}
+
+	public void deleteFiles(String fileIdsStr) {
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim()))
+					.collect(Collectors.toList());
+
+			for (int fileId : fileIds) {
+				deleteFile(fileId);
+			}
+		}
 	}
 
 }
