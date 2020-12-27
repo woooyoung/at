@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <c:set var="pageTitle" value="${job.name} 모집 수정" />
 <%@ include file="../part/head.jspf"%>
-
-
+<%@ include file="../part/toastuiEditor.jspf"%>
 <script>
 	var RecruitmentModifyForm__submitDone = false;
 	function RecruitmentModifyForm__submit(form) {
@@ -41,17 +39,15 @@
 			}
 		}
 		form.title.value = form.title.value.trim();
-		if (form.title.value.length == 0) {
-			form.title.focus();
-			alert('제목을 입력해주세요.');
-			return;
-		}
-		form.body.value = form.body.value.trim();
-		if (form.body.value.length == 0) {
-			form.body.focus();
+		var bodyEditor = $(form).find('.toast-editor.input-body').data(
+				'data-toast-editor');
+		var body = bodyEditor.getMarkdown().trim();
+		if (body.length == 0) {
+			bodyEditor.focus();
 			alert('특이사항을 입력해주세요.');
 			return;
 		}
+		form.body.value = body;
 		var maxSizeMb = 50;
 		var maxSize = maxSizeMb * 1024 * 1024 //50MB
 		if (fileInput1 && fileInput1.value) {
@@ -114,6 +110,9 @@
 				fileIdsStr = data.body.fileIdsStr;
 			}
 			form.fileIdsStr.value = fileIdsStr;
+			if (bodyEditor.inBodyFileIdsStr) {
+				form.fileIdsStr.value += bodyEditor.inBodyFileIdsStr;
+			}
 			if (fileInput1) {
 				fileInput1.value = '';
 			}
@@ -127,8 +126,14 @@
 		});
 	}
 </script>
-<form class="table-box con form1" method="POST"
-	action="${job.code}-doModify"
+<style>
+.recruitment-modify-box td:empty {
+	background-color: #efefef;
+}
+</style>
+<form
+	class="table-box table-box-vertical recruitment-modify-box con form1"
+	method="POST" action="${job.code}-doModify"
 	onsubmit="RecruitmentModifyForm__submit(this); return false;">
 	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
 		name="redirectUri"
@@ -204,7 +209,9 @@
 				<th>특이 사항</th>
 				<td>
 					<div class="form-control-box">
-						<textarea name="body" placeholder="특이 사항을 입력해주세요.">${recruitment.body}</textarea>
+						<script type="text/x-template">${recruitment.body}</script>
+						<div data-relTypeCode="recruitment" data-relId="${recruitment.id}"
+							class="toast-editor input-body"></div>
 					</div>
 				</td>
 			</tr>
@@ -223,9 +230,7 @@
 						</div> <c:if test="${file != null && file.fileExtTypeCode == 'video'}">
 							<div class="video-box">
 								<video controls
-									src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}">video
-									not supported
-								</video>
+									src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}"></video>
 							</div>
 						</c:if> <c:if test="${file != null && file.fileExtTypeCode == 'img'}">
 							<div class="img-box img-box-auto">
@@ -248,11 +253,9 @@
 			</c:forEach>
 		</tbody>
 	</table>
-
 	<div class="btn-box margin-top-20">
 		<button type="submit" class="btn btn-primary">수정</button>
 		<a class="btn btn-info" href="${listUrl}">리스트</a>
 	</div>
 </form>
-
 <%@ include file="../part/foot.jspf"%>

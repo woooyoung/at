@@ -5,8 +5,9 @@
 
 <c:set var="pageTitle" value="${board.name} 게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
+<%@ include file="../part/toastuiEditor.jspf"%>
 
-<div class="article-detail-box table-box con">
+<div class="article-detail-box table-box table-box-vertical con">
 	<table>
 		<colgroup>
 			<col class="table-first-col">
@@ -26,7 +27,8 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td>${article.forPrintBody}</td>
+				<td><script type="text/x-template">${article.body}</script>
+					<div class="toast-editor toast-editor-viewer"></div></td>
 			</tr>
 			<c:forEach var="i" begin="1" end="3" step="1">
 				<c:set var="fileNo" value="${String.valueOf(i)}" />
@@ -38,9 +40,7 @@
 						<td><c:if test="${file.fileExtTypeCode == 'video'}">
 								<div class="video-box">
 									<video controls
-										src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}">video
-										not supported
-									</video>
+										src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}"></video>
 								</div>
 							</c:if> <c:if test="${file.fileExtTypeCode == 'img'}">
 								<div class="img-box img-box-auto">
@@ -154,7 +154,7 @@
 		}
 	</script>
 
-	<form class="table-box con form1"
+	<form class="table-box table-box-vertical  con form1"
 		onsubmit="WriteReplyForm__submit(this); return false;">
 		<input type="hidden" name="relTypeCode" value="article" /> <input
 			type="hidden" name="relId" value="${article.id}" />
@@ -189,33 +189,48 @@
 						</td>
 					</tr>
 				</c:forEach>
-				<tr>
+				<tr class="tr-do">
 					<th>작성</th>
-					<td><input class="btn btn-primary" type="submit" value="작성"></td>
+					<td><input class="btn btn-primary" type="submit" value="작성">
+					</td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
 </c:if>
 
-<h2 class="con">댓글 리스트</h2>
+<h2 class="con">댓글 목록</h2>
 
-<div class="reply-list-box table-box con">
+<style>
+.reply-list-box .media-box>* {
+	margin-top: 10px;
+}
+
+.reply-list-box .media-box>*:empty {
+	display: none;
+}
+
+.reply-list-box .media-box>:first-chidl {
+	margin-top: 10px;
+}
+</style>
+
+<div class="reply-list-box table-box table-box-data con">
 	<table>
 		<colgroup>
-			<col class="table-first-col table-first-col-tight">
-			<col width="180" class="visible-on-md-up">
-			<col width="180" class="visible-on-md-up">
+			<col class="table-first-col">
+			<col width="100">
+			<col width="140">
 			<col>
-			<col width="200" class="visible-on-md-up">
+			<col width="180">
 		</colgroup>
 		<thead>
 			<tr>
 				<th>번호</th>
-				<th class="visible-on-md-up">날짜</th>
-				<th class="visible-on-md-up">작성자</th>
+				<th>날짜</th>
+				<th>작성자</th>
 				<th>내용</th>
-				<th class="visible-on-md-up">비고</th>
+				<th>비고</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -237,20 +252,16 @@
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.4);
 	display: none;
+	align-items: center;
+	justify-content: center;
 	z-index: 20;
 }
 
 .reply-modify-form-modal>div {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translateX(-50%) translateY(-50%);
-	max-width: 100vw;
-	min-width: 320px;
-	max-height: 100vh;
+	border: 1px solid #787878;
 	overflow-y: auto;
-	border: 3px solid black;
-	box-sizing: border-box;
+	max-height: 100vh;
+	box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.3);
 }
 
 .reply-modify-form-modal-actived .reply-modify-form-modal {
@@ -268,55 +279,75 @@
 .reply-modify-form-modal .video-box {
 	width: 100px;
 }
+
+.reply-modify-form-modal .img-box {
+	width: 100px;
+}
 </style>
 
 <div class="reply-modify-form-modal">
-	<div class="bg-white">
-		<h1 class="text-align-center">댓글 수정</h1>
-		<form action="" class="form1 padding-10"
+	<div class="bg-white con">
+		<h1 class="padding-left-10">댓글 수정</h1>
+		<form action="" class="form1 padding-10 table-box table-box-vertical"
 			onsubmit="ReplyList__submitModifyForm(this); return false;">
 			<input type="hidden" name="id" />
-			<div class="form-row">
-				<div class="form-control-label">내용</div>
-				<div class="form-control-box">
-					<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
-				</div>
-			</div>
+			<table>
+				<colgroup>
+					<col class="table-first-col">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>내용</th>
+						<td>
+							<div class="form-control-box">
+								<textarea name="body" placeholder="내용을 입력해주세요."></textarea>
+							</div>
+						</td>
+					</tr>
 
-			<c:forEach var="i" begin="1" end="3" step="1">
-				<c:set var="fileNo" value="${String.valueOf(i)}" />
-				<c:set var="fileExtTypeCode"
-					value="${appConfig.getAttachmentFileExtTypeCode('article', i)}" />
+					<c:forEach var="i" begin="1" end="3" step="1">
+						<c:set var="fileNo" value="${String.valueOf(i)}" />
+						<c:set var="fileExtTypeCode"
+							value="${appConfig.getAttachmentFileExtTypeCode('article', i)}" />
 
-				<div class="form-row">
-					<div class="form-control-label">첨부${fileNo}</div>
-					<div class="form-control-box">
-						<input type="file"
-							accept="${appConfig.getAttachemntFileInputAccept('article', i)}"
-							data-name="file__reply__0__common__attachment__${fileNo}">
-					</div>
-					<div style="width: 100%" class="video-box video-box-file-${fileNo}"></div>
-					<div style="width: 100%"
-						class="img-box img-box-auto img-box-file-${fileNo}"></div>
-				</div>
+						<tr>
+							<th>첨부${fileNo}</th>
+							<td>
+								<div class="form-control-box">
+									<input type="file"
+										accept="${appConfig.getAttachemntFileInputAccept('article', i)}"
+										data-name="file__reply__0__common__attachment__${fileNo}">
+								</div>
+								<div style="width: 100%"
+									class="video-box video-box-file-${fileNo}"></div>
+								<div style="width: 100%"
+									class="img-box img-box-auto img-box-file-${fileNo}"></div>
+							</td>
+						</tr>
 
-				<div class="form-row">
-					<div class="form-control-label">첨부${fileNo} 삭제</div>
-					<div class="form-control-box">
-						<label><input type="checkbox"
-							data-name="deleteFile__reply__0__common__attachment__${fileNo}"
-							value="Y" /> 삭제 </label>
-					</div>
-				</div>
-			</c:forEach>
-			<div class="form-row">
-				<div class="form-control-label">수정</div>
-				<div class="form-control-box">
-					<button class="btn btn-primary" type="submit">수정</button>
-					<button class="btn btn-info" type="button"
-						onclick="ReplyList__hideModifyFormModal();">취소</button>
-				</div>
-			</div>
+						<tr>
+							<th>첨부${fileNo} 삭제</th>
+							<td>
+								<div class="form-control-box">
+									<label> <input type="checkbox"
+										data-name="deleteFile__reply__0__common__attachment__${fileNo}"
+										value="Y" /> 삭제
+									</label>
+								</div>
+							</td>
+						</tr>
+					</c:forEach>
+					<tr class="tr-do">
+						<th>수정</th>
+						<td>
+							<button class="btn btn-primary" type="submit">수정</button>
+							<button class="btn btn-info" type="button"
+								onclick="ReplyList__hideModifyFormModal();">취소</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
 		</form>
 	</div>
 </div>
@@ -529,18 +560,8 @@
 			$tr.remove();
 		}, 'json');
 	}
-	function ReplyList__drawReply(reply) {
+	function ReplyList__getMediaHtml(reply) {
 		var html = '';
-		html += '<tr data-id="' + reply.id + '">';
-		html += '<td>' + reply.id + '</td>';
-		html += '<td class="visible-on-md-up">' + reply.regDate + '</td>';
-		html += '<td class="visible-on-md-up">' + reply.extra.writer + '</td>';
-		html += '<td>';
-		html += '<div class="reply-body">' + reply.forPrintBody + '</div>';
-		html += '<div class="visible-on-sm-down">날짜 : ' + reply.regDate
-				+ '</div>';
-		html += '<div class="visible-on-sm-down">작성 : ' + reply.extra.writer
-				+ '</div>';
 		for (var fileNo = 1; fileNo <= 3; fileNo++) {
 			var file = null;
 			if (reply.extra.file__common__attachment
@@ -551,7 +572,7 @@
 			if (file && file.fileExtTypeCode == 'video') {
 				html += '<video controls src="/usr/file/streamVideo?id='
 						+ file.id + '&updateDate=' + file.updateDate
-						+ '">video not supported</video>';
+						+ '"></video>';
 			}
 			html += '</div>';
 			html += '<div class="img-box img-box-auto" data-img-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
@@ -561,7 +582,39 @@
 			}
 			html += '</div>';
 		}
-		html += '<div class="visible-on-sm-down margin-top-10">';
+		return '<div class="media-box">' + html + "</div>";
+	}
+	function ReplyList__drawReply(reply) {
+		var html = '';
+		html += '<tr data-id="' + reply.id + '">';
+		html += '<td>' + reply.id + '</td>';
+		html += '<td class="visible-on-md-up">' + reply.regDate + '</td>';
+		html += '<td class="visible-on-md-up">' + reply.extra.writer + '</td>';
+		html += '<td>';
+		html += '<div class="reply-body">' + reply.forPrintBody + '</div>';
+		html += ReplyList__getMediaHtml(reply);
+		html += '</td>';
+		html += '<td>';
+		if (reply.extra.actorCanDelete) {
+			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
+		}
+		if (reply.extra.actorCanModify) {
+			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
+		}
+		html += '</td>';
+		html += '<td class="visible-on-sm-down">';
+		html += '<div class="flex flex-row-wrap flex-ai-c">';
+		html += '<span class="badge badge-primary bold margin-right-10">'
+				+ reply.id + '</span>';
+		html += '<div class="writer">' + reply.extra.writer + '</div>';
+		html += '&nbsp;|&nbsp;';
+		html += '<div class="reg-date">' + reply.regDate + '</div>';
+		html += '<div class="width-100p"></div>';
+		html += '<div class="body flex-1-0-0 margin-top-10 reply-body">'
+				+ reply.forPrintBody + '</div>';
+		html += ReplyList__getMediaHtml(reply);
+		html += '</div>';
+		html += '<div class="margin-top-10">';
 		if (reply.extra.actorCanDelete) {
 			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
 		}
@@ -569,14 +622,6 @@
 			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
 		}
 		html += '</div>';
-		html += '</td>';
-		html += '<td class="visible-on-md-up">';
-		if (reply.extra.actorCanDelete) {
-			html += '<button class="btn btn-danger" type="button" onclick="ReplyList__delete(this);">삭제</button>';
-		}
-		if (reply.extra.actorCanModify) {
-			html += '<button class="btn btn-info" type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
-		}
 		html += '</td>';
 		html += '</tr>';
 		var $tr = $(html);

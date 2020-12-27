@@ -234,6 +234,15 @@
 				.each(
 						function(index, el) {
 							var $el = $(this);
+							var relTypeCode = $el.attr('data-relTypeCode');
+							if (!relTypeCode) {
+								alert('오류로 중단 : `.toast-editoar` 엘리먼트에는 data-relTypeCode, data-relId 속성이 있어야 합니다.');
+								return true;
+							}
+							var relId = $el.attr('data-relId');
+							if (!relId) {
+								relId = 0;
+							}
 							var height = jq_attr($el,
 									'data-toast-editor-height', 500);
 							height = parseInt(height);
@@ -270,7 +279,11 @@
 												var fd = new FormData();
 												fd
 														.append(
-																'file__common__0__common__inBody__1',
+																'file__'
+																		+ relTypeCode
+																		+ '__'
+																		+ relId
+																		+ '__common__inBody__1',
 																blob);
 												$
 														.ajax(
@@ -283,7 +296,11 @@
 																})
 														.done(
 																function(data) {
-																	if (data.body.fileInfs
+																	if (data.resultCode
+																			.substr(
+																					0,
+																					2) == 'S-'
+																			&& data.body.fileInfs
 																			&& data.body.fileInfs.length > 0) {
 																		var url = data.body.fileInfs[0].url;
 
@@ -292,6 +309,13 @@
 																			url = window.location.origin
 																					+ url;
 																		}
+
+																		if (!editor.inBodyFileIdsStr) {
+																			editor.inBodyFileIdsStr = "";
+																		}
+
+																		editor.inBodyFileIdsStr += ","
+																				+ data.body.fileInfs[0].id;
 
 																		callback(url);
 																	}
@@ -310,6 +334,36 @@
 							$el.addClass('toast-editor-loaded');
 
 							$el.data('data-toast-editor', editor);
+
+							var onWindowResize = _
+									.debounce(
+											function() {
+												var windowWidth = $(window)
+														.width();
+
+												if (windowWidth < 800) {
+													if (editor
+															.getCurrentPreviewStyle() != 'tab') {
+														editor
+																.changePreviewStyle("tab");
+													}
+												} else {
+													if (editor
+															.getCurrentPreviewStyle() != 'vertical') {
+														editor
+																.changePreviewStyle("vertical");
+													}
+												}
+
+												var body = editor.getMarkdown();
+												editor.reset();
+												setTimeout(function() {
+													editor.setMarkdown(body);
+												}, 100);
+											}, 500);
+
+							$(window).resize(onWindowResize);
+							onWindowResize();
 						});
 	}
 

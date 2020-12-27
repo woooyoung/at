@@ -4,7 +4,7 @@
 
 <c:set var="pageTitle" value="${board.name} 게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
-
+<%@ include file="../part/toastuiEditor.jspf"%>
 
 <script>
 	var ArticleModifyForm__submitDone = false;
@@ -46,12 +46,15 @@
 			alert('제목을 입력해주세요.');
 			return;
 		}
-		form.body.value = form.body.value.trim();
-		if (form.body.value.length == 0) {
-			form.body.focus();
-			alert('내용을 입력해주세요.');
+		var bodyEditor = $(form).find('.toast-editor.input-body').data(
+				'data-toast-editor');
+		var body = bodyEditor.getMarkdown().trim();
+		if (body.length == 0) {
+			bodyEditor.focus();
+			alert('특이사항을 입력해주세요.');
 			return;
 		}
+		form.body.value = body;
 		var maxSizeMb = 50;
 		var maxSize = maxSizeMb * 1024 * 1024 //50MB
 		if (fileInput1 && fileInput1.value) {
@@ -114,6 +117,9 @@
 				fileIdsStr = data.body.fileIdsStr;
 			}
 			form.fileIdsStr.value = fileIdsStr;
+			if (bodyEditor.inBodyFileIdsStr) {
+				form.fileIdsStr.value += bodyEditor.inBodyFileIdsStr;
+			}
 			if (fileInput1) {
 				fileInput1.value = '';
 			}
@@ -127,11 +133,11 @@
 		});
 	}
 </script>
-<form class="table-box con form1" method="POST"
+<form class="table-box table-box-vertical con form1" method="POST"
 	action="${board.code}-doModify"
 	onsubmit="ArticleModifyForm__submit(this); return false;">
 	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
-		name="redirectUri"
+		name="body" /> <input type="hidden" name="redirectUri"
 		value="/usr/article/${board.code}-detail?id=${article.id}" /> <input
 		type="hidden" name="id" value="${article.id}" />
 	<table>
@@ -160,7 +166,9 @@
 				<th>내용</th>
 				<td>
 					<div class="form-control-box">
-						<textarea name="body" placeholder="내용을 입력해주세요.">${article.body}</textarea>
+						<script type="text/x-template">${article.body}</script>
+						<div data-relTypeCode="artile" data-relId="${article.id}"
+							class="toast-editor input-body"></div>
 					</div>
 				</td>
 			</tr>
@@ -179,9 +187,7 @@
 						</div> <c:if test="${file != null && file.fileExtTypeCode == 'video'}">
 							<div class="video-box">
 								<video controls
-									src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}">video
-									not supported
-								</video>
+									src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}"></video>
 							</div>
 						</c:if> <c:if test="${file != null && file.fileExtTypeCode == 'img'}">
 							<div class="img-box img-box-auto">
@@ -195,9 +201,10 @@
 					<th>첨부파일 ${fileNo} 삭제</th>
 					<td>
 						<div class="form-control-box">
-							<label><input type="checkbox"
+							<label> <input type="checkbox"
 								name="deleteFile__article__${article.id}__common__attachment__${fileNo}"
-								value="Y" /> 삭제 </label>
+								value="Y" /> 삭제
+							</label>
 						</div>
 					</td>
 				</tr>

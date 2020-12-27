@@ -1,22 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<c:set var="pageTitle" value="${job.name} 모집 수정" />
+<c:set var="pageTitle" value="${job.name} 신규모집" />
 <%@ include file="../part/head.jspf"%>
 <%@ include file="../part/toastuiEditor.jspf"%>
-
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-
 <script>
 	$(function() {
 		$('.select2').select2();
 	});
 </script>
-
 <script>
 	var RecruitmentWriteForm__submitDone = false;
 	function RecruitmentWriteForm__submit(form) {
@@ -25,12 +21,15 @@
 			return;
 		}
 		form.title.value = form.title.value.trim();
-		form.body.value = form.body.value.trim();
-		if (form.body.value.length == 0) {
-			form.body.focus();
+		var bodyEditor = $(form).find('.toast-editor.input-body').data(
+				'data-toast-editor');
+		var body = bodyEditor.getMarkdown().trim();
+		if (body.length == 0) {
+			bodyEditor.focus();
 			alert('특이사항을 입력해주세요.');
 			return;
 		}
+		form.body.value = body;
 		var maxSizeMb = 50;
 		var maxSize = maxSizeMb * 1024 * 1024 //50MB
 		if (form.file__recruitment__0__common__attachment__1.value) {
@@ -83,18 +82,20 @@
 			form.fileIdsStr.value = fileIdsStr;
 			form.file__recruitment__0__common__attachment__1.value = '';
 			form.file__recruitment__0__common__attachment__2.value = '';
+			if (bodyEditor.inBodyFileIdsStr) {
+				form.fileIdsStr.value += bodyEditor.inBodyFileIdsStr;
+			}
 			form.submit();
 		});
 	}
 </script>
-<form method="POST" class="table-box con form1"
+<form method="POST" class="table-box table-box-vertical con form1"
 	action="${job.code}-doWrite"
 	onsubmit="RecruitmentWriteForm__submit(this); return false;">
 	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
 		name="redirectUri" value="/usr/recruitment/${job.code}-detail?id=#id">
 	<input type="hidden" name="roleTypeCode" value="actingRole"> <input
 		type="hidden" name="body">
-
 	<table>
 		<colgroup>
 			<col class="table-first-col">
@@ -126,16 +127,20 @@
 				<td>
 					<div class="form-control-box">
 						<script type="text/x-template">
-# 유튜브 동영상 삽입
+# 감독 인사말
+![img](https://placekitten.com/200/287)
+정말 반갑습니다.
+
+# 1분연기 예시
+
+아래 영상을 참고하여 영상을 촬영해서 신청해주세요.
 
 ```youtube
-https://www.youtube.com/watch?v=2UXq0e75V6s(동영상 주소)
+https://www.youtube.com/watch?v=LmgWxezH7cc(동영상 주소)
 ```
-
-# 이미지 삽입
-![img](이미지 주소)
 						</script>
-						<div class="toast-editor"></div>
+						<div data-relTypeCode="recruitment" data-relId="0"
+							class="toast-editor input-body"></div>
 					</div>
 				</td>
 			</tr>
@@ -155,7 +160,7 @@ https://www.youtube.com/watch?v=2UXq0e75V6s(동영상 주소)
 					</td>
 				</tr>
 			</c:forEach>
-			<tr>
+			<tr class="tr-do">
 				<th>작성</th>
 				<td>
 					<button class="btn btn-primary" type="submit">작성</button> <a
@@ -165,5 +170,4 @@ https://www.youtube.com/watch?v=2UXq0e75V6s(동영상 주소)
 		</tbody>
 	</table>
 </form>
-
 <%@ include file="../part/foot.jspf"%>

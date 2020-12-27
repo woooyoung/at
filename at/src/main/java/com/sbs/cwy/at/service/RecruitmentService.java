@@ -86,6 +86,22 @@ public class RecruitmentService {
 		String fileIdsStr = (String) param.get("fileIdsStr");
 
 		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			fileIdsStr = fileIdsStr.trim();
+
+			if (fileIdsStr.startsWith(",")) {
+				fileIdsStr = fileIdsStr.substring(1);
+			}
+		}
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
+			fileIdsStr = fileIdsStr.trim();
+
+			if (fileIdsStr.startsWith(",")) {
+				fileIdsStr = fileIdsStr.substring(1);
+			}
+		}
+
+		if (fileIdsStr != null && fileIdsStr.length() > 0) {
 			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim()))
 					.collect(Collectors.toList());
 
