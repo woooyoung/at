@@ -30,12 +30,19 @@ function jq_attr($el, attrName, elseValue) {
 }
 
 function isCellphoneNo(str) {
-	if ( str.substr(0, 1) != '0' ) {
+	if (str.substr(0, 1) != '0') {
 		return false;
 	}
 
 	return isNumber(str);
 }
+
 function isNumber(n) {
 	return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
-} 
+}
+
+function getHtmlEncoded(raw) {
+	return raw.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+		return '&#' + i.charCodeAt(0) + ';';
+	});
+}

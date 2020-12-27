@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="회원가입" />
+<c:set var="pageTitle" value="회원정보수정" />
 <%@ include file="../part/head.jspf"%>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 <script>
-	var MemberModifyForm__submitDone = false;
 	function MemberModifyForm__submit(form) {
-		if (MemberModifyForm__submitDone) {
+		if (isNowLoading()) {
 			alert('처리중입니다.');
 			return;
 		}
@@ -74,11 +73,10 @@
 		if (form.loginPw.value.length > 0) {
 			form.loginPwReal.value = sha256(form.loginPw.value);
 		}
-
 		form.loginPw.value = '';
 		form.loginPwConfirm.value = '';
 		form.submit();
-		MemberModifyForm__submitDone = true;
+		startLoading();
 	}
 </script>
 <form method="POST" class="table-box table-box-vertical con form1"

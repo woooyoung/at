@@ -5,9 +5,8 @@
 <%@ include file="../part/head.jspf"%>
 <%@ include file="../part/toastuiEditor.jspf"%>
 <script>
-	var RecruitmentModifyForm__submitDone = false;
 	function RecruitmentModifyForm__submit(form) {
-		if (RecruitmentModifyForm__submitDone) {
+		if (isNowLoading()) {
 			alert('처리중입니다.');
 			return;
 		}
@@ -103,7 +102,7 @@
 				success : onSuccess
 			});
 		}
-		RecruitmentModifyForm__submitDone = true;
+		startLoading();
 		startUploadFiles(function(data) {
 			var fileIdsStr = '';
 			if (data && data.body && data.body.fileIdsStr) {
@@ -244,9 +243,10 @@
 					<th>첨부파일 ${fileNo} 삭제</th>
 					<td>
 						<div class="form-control-box">
-							<label><input type="checkbox"
+							<label> <input type="checkbox"
 								name="deleteFile__recruitment__${recruitment.id}__common__attachment__${fileNo}"
-								value="Y" /> 삭제 </label>
+								value="Y" /> 삭제
+							</label>
 						</div>
 					</td>
 				</tr>

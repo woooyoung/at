@@ -7,9 +7,8 @@
 <%@ include file="../part/toastuiEditor.jspf"%>
 
 <script>
-	var ArticleModifyForm__submitDone = false;
 	function ArticleModifyForm__submit(form) {
-		if (ArticleModifyForm__submitDone) {
+		if (isNowLoading()) {
 			alert('처리중입니다.');
 			return;
 		}
@@ -110,7 +109,7 @@
 				success : onSuccess
 			});
 		}
-		ArticleModifyForm__submitDone = true;
+		startLoading();
 		startUploadFiles(function(data) {
 			var fileIdsStr = '';
 			if (data && data.body && data.body.fileIdsStr) {

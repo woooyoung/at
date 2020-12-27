@@ -4859,3 +4859,9 @@ Binding(COMMAND+SHIFT+C,
 
 !ENTRY org.eclipse.wst.html.ui 1 1 2020-12-24 19:14:28.546
 !MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.eclipse.wst.html.ui 1 1 2020-12-27 12:38:14.568
+!MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.eclipse.wst.html.ui 1 1 2020-12-27 12:38:14.569
+!MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT

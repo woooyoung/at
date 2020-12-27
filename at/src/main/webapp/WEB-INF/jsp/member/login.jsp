@@ -9,9 +9,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
 
 <script>
-	var MemberLoginForm__submitDone = false;
 	function MemberLoginForm__submit(form) {
-		if (MemberLoginForm__submitDone) {
+		if (isNowLoading()) {
 			alert('처리중입니다.');
 			return;
 		}
@@ -43,17 +42,18 @@
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
 		form.submit();
-		MemberLoginForm__submitDone = true;
+		startLoading();
 	}
 </script>
-<form method="POST" class="table-box con form1" action="doLogin"
+<form method="POST" class="table-box table-box-vertical  con form1"
+	action="doLogin"
 	onsubmit="MemberLoginForm__submit(this); return false;">
 	<input type="hidden" name="redirectUri" value="${param.redirectUri}">
 	<input type="hidden" name="loginPwReal">
 
 	<table>
 		<colgroup>
-			<col width="70">
+			<col class="table-first-col">
 		</colgroup>
 		<tbody>
 			<tr>
