@@ -125,7 +125,7 @@
 https://www.youtube.com/watch?v=LmgWxezH7cc
 ```
                         </script>
-						<div data-relTypeCode="artile" data-relId="0"
+						<div data-relTypeCode="article" data-relId="0"
 							class="toast-editor input-body"></div>
 					</div>
 				</td>

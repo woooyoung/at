@@ -4865,3 +4865,33 @@ Binding(COMMAND+SHIFT+C,
 
 !ENTRY org.eclipse.wst.html.ui 1 1 2020-12-27 12:38:14.569
 !MESSAGE No line style provider for org.eclipse.wst.html.SCRIPT
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:07:59.989
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:07:59.999
+!MESSAGE classpath=125 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:00.002
+!MESSAGE buffering callback sts4.classpath.wdZmBies at false 125
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:00.003
+!MESSAGE executing callback sts4.classpath.wdZmBies 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:00.054
+!MESSAGE executing callback sts4.classpath.wdZmBies SUCCESS [done]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:12.132
+!MESSAGE exists = true open = true => deleted = false
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:12.136
+!MESSAGE classpath=125 entries
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:12.137
+!MESSAGE buffering callback sts4.classpath.wdZmBies at false 125
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:12.138
+!MESSAGE executing callback sts4.classpath.wdZmBies 1 batched events
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2020-12-27 19:08:12.170
+!MESSAGE executing callback sts4.classpath.wdZmBies SUCCESS [done]

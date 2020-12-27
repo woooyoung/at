@@ -443,7 +443,7 @@ label[for] {
 	right: 0 !important;
 }
 
-.tui-editor-defaultUI pre.CodeMirror-line {
+.tui-editor-defaultUI pre {
 	padding-left: 10px !important;
 	padding-right: 0 !important;
 }
