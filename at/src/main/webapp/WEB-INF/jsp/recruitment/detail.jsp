@@ -539,7 +539,7 @@
 					for ( var fileNo in data.body.file__common__attachment) {
 						var file = data.body.file__common__attachment[fileNo];
 						if (file.fileExtTypeCode == 'video') {
-							var html = '<video controls src="/usr/file/streamVideo?id='
+							var html = '<video preload="none" controls src="/usr/file/streamVideo?id='
 									+ file.id
 									+ '&updateDate='
 									+ file.updateDate
@@ -672,8 +672,10 @@
 			}
 			html += '<div class="video-box" data-video-name="applyment__' + applyment.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'video') {
-				html += '<video controls src="/usr/file/streamVideo?id='
-						+ file.id + '&updateDate=' + file.updateDate
+				html += '<video preload="none" controls src="/usr/file/streamVideo?id='
+						+ file.id
+						+ '&updateDate='
+						+ file.updateDate
 						+ '"></video>';
 			}
 			html += '</div>';
@@ -780,6 +782,8 @@
 		html += '<div class="width-100p"></div>';
 		html += '<div class="body flex-1-0-0 margin-top-10 applyment-body">'
 				+ applyment.forPrintBody + '</div>';
+		html += '<div class="width-100p"></div>';
+
 		html += ApplymentList__getMediaHtml(applyment);
 		html += '</div>';
 		html += '<div class="margin-top-10 btn-inline-box">';

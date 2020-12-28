@@ -433,7 +433,7 @@
 					for ( var fileNo in data.body.file__common__attachment) {
 						var file = data.body.file__common__attachment[fileNo];
 						if (file.fileExtTypeCode == 'video') {
-							var html = '<video controls src="/usr/file/streamVideo?id='
+							var html = '<video preload="none" controls src="/usr/file/streamVideo?id='
 									+ file.id
 									+ '&updateDate='
 									+ file.updateDate
@@ -555,7 +555,7 @@
 			}
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'video') {
-				html += '<video controls src="/usr/file/streamVideo?id='
+				html += '<video preload="none" controls src="/usr/file/streamVideo?id='
 						+ file.id + '&updateDate=' + file.updateDate
 						+ '"></video>';
 			}

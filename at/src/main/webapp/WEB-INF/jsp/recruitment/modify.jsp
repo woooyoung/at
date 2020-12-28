@@ -134,8 +134,8 @@
 	class="table-box table-box-vertical recruitment-modify-box con form1"
 	method="POST" action="${job.code}-doModify"
 	onsubmit="RecruitmentModifyForm__submit(this); return false;">
-	<input type="hidden" name="fileIdsStr" /> <input type="hidden"
-		name="redirectUri"
+	<input type="hidden" name="body" /> <input type="hidden"
+		name="fileIdsStr" /> <input type="hidden" name="redirectUri"
 		value="/usr/recruitment/${job.code}-detail?id=${recruitment.id}" /> <input
 		type="hidden" name="id" value="${recruitment.id}" />
 	<table>
