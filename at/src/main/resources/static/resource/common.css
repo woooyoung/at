@@ -17,6 +17,10 @@ label[for] {
 }
 
 /* 라이브러리 */
+.break-all {
+	word-break: break-all;
+}
+
 .text-overflow-el {
 	overflow: hidden;
 	text-overflow: ellipsis;
