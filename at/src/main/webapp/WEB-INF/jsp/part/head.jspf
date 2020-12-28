@@ -81,15 +81,14 @@ var param = ${paramJson};
 						<li><a class="flex flex-jc-c"
 							href="/usr/member/checkPassword?redirectUri=${Util.getUriEncoded('/usr/member/modify')}">내
 								정보수정</a></li>
-						<li><a class="flex flex-jc-c" href="/usr/member/doLogout">로그아웃</a>
-						</li>
+						<li><a class="flex flex-jc-c" href="/usr/member/doLogout">로그아웃</a></li>
 					</c:if>
 					<c:if test="${isLogined == false}">
 						<li><a class="flex flex-jc-c"
-							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a>
-						</li>
-						<li><a class="flex flex-jc-c" href="/usr/member/join">회원가입</a>
-						</li>
+							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a></li>
+						<li><a class="flex flex-jc-c" href="/usr/member/join">회원가입</a></li>
+						<li><a class="flex flex-jc-c"
+							href="/usr/member/findLoginInfo">아이디/비번 찾기</a></li>
 					</c:if>
 				</ul>
 			</nav>
@@ -113,10 +112,11 @@ var param = ${paramJson};
 					</c:if>
 					<c:if test="${isLogined == false}">
 						<li class="padding-0-10"><a class="btn btn-info"
-							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a>
-						</li>
+							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a></li>
 						<li class="padding-0-10"><a class="btn btn-info"
 							href="/usr/member/join">회원가입</a></li>
+						<li class="padding-0-10"><a class="btn btn-info"
+							href="/usr/member/findLoginInfo">아이디/비번 찾기</a></li>
 					</c:if>
 				</ul>
 			</nav>

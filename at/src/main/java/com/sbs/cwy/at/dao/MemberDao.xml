@@ -10,6 +10,15 @@
 		id = #{id}
 	</select>
 
+	<select id="getMemberByNameAndEmail" resultType="Member">
+		SELECT *
+		FROM
+		member
+		WHERE
+		name = #{name}
+		AND email = #{email}
+	</select>
+
 	<select id="getLoginIdDupCount" resultType="int">
 		SELECT COUNT(*) AS
 		cnt
@@ -37,7 +46,7 @@
 		email = #{email},
 		cellphoneNo = #{cellphoneNo}
 	</insert>
-	
+
 	<update id="modify">
 		UPDATE member
 		<set>
