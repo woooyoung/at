@@ -38,6 +38,17 @@ var activeProfile = '${activeProfile}';
 <%="<script>"%>
 var param = ${paramJson};
 <%="</script>"%>
+
+<script>
+	// 사파리 브라우저의 경우 history.back()을 했을 때 브라우저가 리프레시 되지 않는다.
+	$(window).bind("pageshow", function(event) {
+		//back 이벤트 일 경우
+		if (event.originalEvent && event.originalEvent.persisted) {
+			endLoading();
+		}
+	});
+</script>
+
 </head>
 <body>
 	<div class="loading-box flex-ai-c flex-jc-c">
