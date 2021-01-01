@@ -526,7 +526,6 @@
 		if (isNowLoading()) {
 			alert('처리중입니다.');
 		}
-
 		if (confirm('삭제 하시겠습니까?') == false) {
 			return;
 		}
@@ -555,8 +554,10 @@
 			}
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'video') {
-				html += '<video preload="none" controls src="/usr/file/streamVideo?id='
-						+ file.id + '&updateDate=' + file.updateDate
+				html += '<video  preload="none" controls src="/usr/file/streamVideo?id='
+						+ file.id
+						+ '&updateDate='
+						+ file.updateDate
 						+ '"></video>';
 			}
 			html += '</div>';

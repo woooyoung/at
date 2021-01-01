@@ -1,4 +1,4 @@
-package com.sbs.cwy.at.controller;
+package com.sbs.cwy.at.controller.usr;
 
 import java.util.HashMap;
 import java.util.List;
