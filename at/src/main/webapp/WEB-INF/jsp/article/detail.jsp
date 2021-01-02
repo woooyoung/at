@@ -39,14 +39,11 @@
 						<th>첨부파일 ${fileNo}</th>
 						<td><c:if test="${file.fileExtTypeCode == 'video'}">
 								<div class="video-box">
-									<video controls
-										src="/usr/file/streamVideo?id=${file.id}&updateDate=${file.updateDate}"></video>
+									<video preload="auto" controls src="${file.forPrintGenUrl}"></video>
 								</div>
 							</c:if> <c:if test="${file.fileExtTypeCode == 'img'}">
 								<div class="img-box img-box-auto">
-									<img
-										src="/usr/file/img?id=${file.id}&updateDate=${file.updateDate}"
-										alt="" />
+									<img src="${file.forPrintGenUrl}" alt="" />
 								</div>
 							</c:if></td>
 					</tr>
@@ -433,18 +430,13 @@
 					for ( var fileNo in data.body.file__common__attachment) {
 						var file = data.body.file__common__attachment[fileNo];
 						if (file.fileExtTypeCode == 'video') {
-							var html = '<video preload="none" controls src="/usr/file/streamVideo?id='
-									+ file.id
-									+ '&updateDate='
-									+ file.updateDate
-									+ '">video not supported</video>';
+							var html = '<video preload="auto" controls src="' + file.forPrintGenUrl + '">video not supported</video>';
 							$(
 									'.reply-list-box tbody > tr[data-id="' + id
 											+ '"] [data-file-no="' + fileNo
 											+ '"].video-box').append(html);
 						} else {
-							var html = '<img src="/usr/file/img?id=' + file.id
-									+ '&updateDate=' + file.updateDate + '">';
+							var html = '<img src="' + file.forPrintGenUrl + '">';
 							$(
 									'.reply-list-box tbody > tr[data-id="' + id
 											+ '"] [data-file-no="' + fileNo
@@ -554,17 +546,12 @@
 			}
 			html += '<div class="video-box" data-video-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'video') {
-				html += '<video  preload="none" controls src="/usr/file/streamVideo?id='
-						+ file.id
-						+ '&updateDate='
-						+ file.updateDate
-						+ '"></video>';
+				html += '<video preload="auto" controls src="' + file.forPrintGenUrl + '"></video>';
 			}
 			html += '</div>';
 			html += '<div class="img-box img-box-auto" data-img-name="reply__' + reply.id + '__common__attachment__' + fileNo + '" data-file-no="' + fileNo + '">';
 			if (file && file.fileExtTypeCode == 'img') {
-				html += '<img src="/usr/file/img?id=' + file.id
-						+ '&updateDate=' + file.updateDate + '">';
+				html += '<img src="' + file.forPrintGenUrl + '">';
 			}
 			html += '</div>';
 		}
