@@ -84,6 +84,10 @@ var param = ${paramJson};
 		<div class="mobile-side-bar flex flex-ai-c">
 			<nav class="menu-box-1 flex-1-0-0">
 				<ul>
+					<c:if test="${isAdmin}">
+						<li><a href="/adm/actingRole/list" class="flex flex-jc-c">관리자</a>
+						</li>
+					</c:if>
 					<li><a href="/usr/recruitment/actor-list"
 						class="flex flex-jc-c">배우모집</a></li>
 					<li><a class="flex flex-jc-c" href="/usr/article/free-list">자유
@@ -92,12 +96,15 @@ var param = ${paramJson};
 						<li><a class="flex flex-jc-c"
 							href="/usr/member/checkPassword?redirectUri=${Util.getUriEncoded('/usr/member/modify')}">내
 								정보수정</a></li>
-						<li><a class="flex flex-jc-c" href="/usr/member/doLogout">로그아웃</a></li>
+						<li><a class="flex flex-jc-c" href="/usr/member/doLogout">로그아웃</a>
+						</li>
 					</c:if>
 					<c:if test="${isLogined == false}">
 						<li><a class="flex flex-jc-c"
-							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a></li>
-						<li><a class="flex flex-jc-c" href="/usr/member/join">회원가입</a></li>
+							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a>
+						</li>
+						<li><a class="flex flex-jc-c" href="/usr/member/join">회원가입</a>
+						</li>
 						<li><a class="flex flex-jc-c"
 							href="/usr/member/findLoginInfo">아이디/비번 찾기</a></li>
 					</c:if>
@@ -110,6 +117,10 @@ var param = ${paramJson};
 			</a>
 			<nav class="menu-box-1">
 				<ul class="flex">
+					<c:if test="${isAdmin}">
+						<li class="padding-0-10"><a class="btn btn-danger"
+							href="/adm/actingRole/list">관리자</a></li>
+					</c:if>
 					<li class="padding-0-10"><a href="/usr/recruitment/actor-list"
 						class="btn btn-primary">배우모집</a></li>
 					<li class="padding-0-10"><a class="btn btn-info"
@@ -123,7 +134,8 @@ var param = ${paramJson};
 					</c:if>
 					<c:if test="${isLogined == false}">
 						<li class="padding-0-10"><a class="btn btn-info"
-							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a></li>
+							href="/usr/member/login?redirectUri=${encodedAfterLoginUri}">로그인</a>
+						</li>
 						<li class="padding-0-10"><a class="btn btn-info"
 							href="/usr/member/join">회원가입</a></li>
 						<li class="padding-0-10"><a class="btn btn-info"
