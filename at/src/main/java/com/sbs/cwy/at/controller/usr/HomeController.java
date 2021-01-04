@@ -12,6 +12,7 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String showIndex() {
-		return "redirect:/usr/recruitment/actor-list";
+		return "usr/home/main";
+
 	}
 }
