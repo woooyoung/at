@@ -2,6 +2,7 @@ package com.sbs.cwy.at.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,6 +25,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	@Qualifier("needToAdmInterceptor")
 	HandlerInterceptor needToAdmInterceptor;
+
+	@Value("${custom.genFileDirPath}")
+	private String genFileDirPath;
 
 	// needToLogoutInterceptor 인터셉터 불러오기
 	@Autowired
@@ -59,7 +63,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/gen/**")
-				.addResourceLocations("file:///C:/work/sts-4.8.0.RELEASE-workspace/at-file/").setCachePeriod(20);
+		registry.addResourceHandler("/gen/**").addResourceLocations("file:///" + genFileDirPath + "/")
+				.setCachePeriod(20);
 	}
 }
