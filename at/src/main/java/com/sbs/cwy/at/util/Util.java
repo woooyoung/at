@@ -472,4 +472,12 @@ public class Util {
 
 		return dateStr;
 	}
+
+	public static int getOneOrZero(boolean b) {
+		if (b) {
+			return 1;
+		}
+
+		return 0;
+	}
 }

@@ -60,7 +60,7 @@
 	</c:if>
 	<c:if test="${article.extra.actorCanDelete}">
 		<a class="btn btn-danger"
-			href="${board.code}-doDelete?id=${article.id}"
+			href="${board.code}-doDelete?id=${article.id}&listUrl=${Util.getUriEncoded(listUrl)"
 			onclick="if ( confirm('삭제하시겠습니까?') == false ) return false;">삭제</a>
 	</c:if>
 

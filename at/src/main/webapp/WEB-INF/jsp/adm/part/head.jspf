@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${logoText}-관리자 - ${pageTitle}</title>
+<title>${logoText}-관리자-${pageTitle}</title>
 <!-- 모바일에서 사이트가 PC에서의 픽셀크기 기준으로 작동하게 하기(반응형 하려면 필요) -->
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -79,7 +79,8 @@ var param = ${paramJson};
 								정보수정</a></li>
 						<li><a class="flex flex-jc-c" href="/usr/member/doLogout">로그아웃</a></li>
 					</c:if>
-					<li><a class="flex flex-jc-c" href="/usr/home/main">사용자페이지</a></li>
+					<li><a class="flex flex-jc-c"
+						href="/adm/actingRole/artworkList">작품리스트</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -97,7 +98,9 @@ var param = ${paramJson};
 							href="/usr/member/doLogout">로그아웃</a></li>
 					</c:if>
 					<li class="padding-0-10"><a class="btn btn-info"
-						href="/usr/home/main">사용자페이지</a></li>
+						href="/adm/actingRole/list">배역리스트</a></li>
+					<li class="padding-0-10"><a class="btn btn-info"
+						href="/adm/actingRole/artworkList">작품리스트</a></li>
 				</ul>
 			</nav>
 		</div>
